@@ -97,9 +97,11 @@
 		69BAD3FF234FF2E800F516F3 /* WeatherProject */ = {
 			isa = PBXGroup;
 			children = (
-				69BAD433234FF3C000F516F3 /* New Group3 */,
-				69BAD432234FF3BD00F516F3 /* New Group2 */,
-				69BAD431234FF3BB00F516F3 /* New Group1 */,
+				69BAD436234FF5ED00F516F3 /* View */,
+				69BAD435234FF5EA00F516F3 /* View Controllers */,
+				69BAD433234FF3C000F516F3 /* Network Helper _ Image Helper */,
+				69BAD432234FF3BD00F516F3 /* Persistence Helper */,
+				69BAD431234FF3BB00F516F3 /* Model */,
 				69BAD430234FF3B900F516F3 /* New Group */,
 				69BAD400234FF2E800F516F3 /* AppDelegate.swift */,
 				69BAD402234FF2E800F516F3 /* SceneDelegate.swift */,
@@ -136,25 +138,47 @@
 			path = "New Group";
 			sourceTree = "<group>";
 		};
-		69BAD431234FF3BB00F516F3 /* New Group1 */ = {
+		69BAD431234FF3BB00F516F3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = "New Group1";
+			path = Model;
 			sourceTree = "<group>";
 		};
-		69BAD432234FF3BD00F516F3 /* New Group2 */ = {
+		69BAD432234FF3BD00F516F3 /* Persistence Helper */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = "New Group2";
+			path = "Persistence Helper";
 			sourceTree = "<group>";
 		};
-		69BAD433234FF3C000F516F3 /* New Group3 */ = {
+		69BAD433234FF3C000F516F3 /* Network Helper _ Image Helper */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = "New Group3";
+			path = "Network Helper _ Image Helper";
+			sourceTree = "<group>";
+		};
+		69BAD435234FF5EA00F516F3 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				69BAD437234FF5FA00F516F3 /* Detail View Controllers */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		69BAD436234FF5ED00F516F3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		69BAD437234FF5FA00F516F3 /* Detail View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Detail View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
