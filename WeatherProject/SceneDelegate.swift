@@ -20,12 +20,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window?.windowScene = windowScene
-               let InitialWeatherListVC = AnimeListVC()
+               let initialWeatherListVC = InitialWeatherViewController()
                let favoritesVC = FavoritesVC()
-               aniListVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
+              
+        initialWeatherListVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
                favoritesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
                
-               let navController1 = UINavigationController(rootViewController: aniListVC)
+               let navController1 = UINavigationController(rootViewController: initialWeatherListVC)
                let tabBarController1 = UITabBarController()
                tabBarController1.viewControllers = [navController1,favoritesVC]
                window?.rootViewController = tabBarController1
