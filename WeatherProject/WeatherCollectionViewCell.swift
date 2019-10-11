@@ -53,9 +53,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         setUpStackViewConstraints()
         
       }
-      required init?(coder: NSCoder) {
-             fatalError("init(coder:) has not been implemented")
-         }
+     
     
     func createTemperatureStackView() -> UIStackView {
         let stacky = UIStackView(arrangedSubviews: [highTempLabel,lowTempLabel])
@@ -97,4 +95,8 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         weatherImageAndTemperatureStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
         weatherImageAndTemperatureStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
     }
+    
+    required init?(coder: NSCoder) {
+                fatalError("init(coder:) has not been implemented")
+            }
 }

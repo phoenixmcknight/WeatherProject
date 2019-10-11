@@ -44,7 +44,7 @@ class InitialWeatherViewController:UIViewController {
     
    lazy var weatherCollectionView:UICollectionView = {
     let colletionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: layout )
-        
+    
     layout.scrollDirection = .horizontal
     layout.itemSize = CGSize(width: 150, height: 150)
     layout.minimumInteritemSpacing = 625
@@ -85,7 +85,7 @@ class InitialWeatherViewController:UIViewController {
     func createCityLabelConstraints() {
        
         cityLabel.translatesAutoresizingMaskIntoConstraints = false
-        cityLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 50).isActive = true
+        cityLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 100).isActive = true
         cityLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         cityLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         cityLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
