@@ -16,6 +16,9 @@ struct WeatherModel: Codable {
     func returnTimeZoneWithSpaces() -> String {
         return timezone.replacingOccurrences(of: "_", with: " ")
     }
+    func addWordsToTimeZone() -> String {
+     return  "Weather Forecast for \(returnTimeZoneWithSpaces()) for "
+    }
     
 }
 

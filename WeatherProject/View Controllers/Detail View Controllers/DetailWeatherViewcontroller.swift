@@ -131,6 +131,18 @@ class DetailWeatherViewContrller:UIViewController {
          stackViewDetails.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     func setUpSubViewsWithInformation() {
+        let location = passingWeather.addWordsToTimeZone()
+        let rawDate = passingDailyData.time
+        let formattedDate = passingDailyData.getDateFromTime(time: rawDate)
+        let highTemp = passingDailyData.returnHighTemperatureInF(temp: passingDailyData.temperatureHigh)
+        let lowTemp = passingDailyData.returnHighTemperatureInF(temp: passingDailyData.temperatureLow)
+      
+        
+        locationLabel.text = "\(location) \(formattedDate)"
+        summaryLabel.text = passingDailyData.summary
+        highTempLabel.text = highTemp
+        lowTempLabel.text = lowTemp
+        
         
     }
     
