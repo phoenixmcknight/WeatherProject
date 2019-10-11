@@ -7,10 +7,13 @@
 //
 
 import Foundation
+import UIKit
 // MARK: - WeatherModel
 struct WeatherModel: Codable {
     let timezone: String
     let daily: Daily
+    
+    
 }
 
 
@@ -42,5 +45,32 @@ struct DailyDatum: Codable {
     let temperatureMinTime: Int
     let temperatureMax: Double
     let temperatureMaxTime: Int
+    
+    func getDateFromTime(time:Int) -> String {
+        let date = NSDate(timeIntervalSince1970: Double(time))
+        return date.description
+    }
+    
+    func returnHighTemperatureInF(temp:Double) -> String {
+        return "High: \(temp)°F"
+    }
+    func returnLowTemperatureInF(temp:Double) -> String {
+        return "Low: \(temp)°F"
+    }
+    
+    func returnPictureBasedOnIcon(icon:String) -> UIImage {
+        switch icon {
+        case "rain":
+            return UIImage(named: "rain")!
+        case "cloudy":
+            return UIImage(named: "cloudy")!
+            
+        case "partly-cloudy-night":
+            return UIImage(named: "pcloudy")!
+            
+        default:
+            return UIImage(named: "image")!
+        }
+    }
 }
 
