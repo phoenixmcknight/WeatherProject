@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		69912EF52351028C00E3F970 /* cellFormating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69912EF42351028C00E3F970 /* cellFormating.swift */; };
 		69BAD401234FF2E800F516F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BAD400234FF2E800F516F3 /* AppDelegate.swift */; };
 		69BAD403234FF2E800F516F3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BAD402234FF2E800F516F3 /* SceneDelegate.swift */; };
 		69BAD40A234FF2EA00F516F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69BAD409234FF2EA00F516F3 /* Assets.xcassets */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		69912EF42351028C00E3F970 /* cellFormating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cellFormating.swift; sourceTree = "<group>"; };
 		69BAD3FD234FF2E800F516F3 /* WeatherProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69BAD400234FF2E800F516F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		69BAD402234FF2E800F516F3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 		69BAD431234FF3BB00F516F3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				69912EF42351028C00E3F970 /* cellFormating.swift */,
 				69BAD446234FF80F00F516F3 /* WeatherAPIModel.swift */,
 			);
 			path = Model;
@@ -369,6 +372,7 @@
 				69BAD43B234FF6EB00F516F3 /* DetailWeatherViewcontroller.swift in Sources */,
 				69BAD44C234FF9AB00F516F3 /* PersistenceHelper.swift in Sources */,
 				69CEC5AC2350B9DE00004250 /* ZipCodeHelper.swift in Sources */,
+				69912EF52351028C00E3F970 /* cellFormating.swift in Sources */,
 				69BAD441234FF7ED00F516F3 /* NetworkHelper.swift in Sources */,
 				69BAD403234FF2E800F516F3 /* SceneDelegate.swift in Sources */,
 				69BAD442234FF7ED00F516F3 /* AppError.swift in Sources */,

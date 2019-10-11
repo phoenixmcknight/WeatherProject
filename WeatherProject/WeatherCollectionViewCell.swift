@@ -9,34 +9,92 @@
 import UIKit
 
 class WeatherCollectionViewCell: UICollectionViewCell {
-    var dateLabel:UILabel = {
+ lazy   var dateLabel:UILabel = {
         let date = UILabel()
-        return date
+    date.textAlignment = .center
+    return date
     }()
     
-    var highTempLabel:UILabel = {
+  lazy  var highTempLabel:UILabel = {
            let high = UILabel()
-           return high
+    high.textAlignment = .center
+    return high
        }()
     
-    var lowTempLabel:UILabel = {
+ lazy   var lowTempLabel:UILabel = {
            let low = UILabel()
-           return low
+    low.textAlignment = .center
+    return low
        }()
     
-    var weatherImage:UIImageView = {
+ lazy   var weatherImage:UIImageView = {
         let weather = UIImageView()
+    weather.contentMode = .scaleAspectFit
+    
         return weather
     }()
+    
+   lazy var temperatureStackView:UIStackView = {
+        
+        
+        return createTemperatureStackView()
+    }()
+    
+    lazy var weatherImageAndTemperatureStackView:UIStackView = {
+        return createWeatherImageAndTemperatureStackView()
+    }()
+    
+    var changeColorOfBorderCellFunction: (()->()) = {}
+
     override init(frame: CGRect) {
           super.init(frame:frame)
-          
+        
+        setUpDateLabelConstraints()
+        setUpStackViewConstraints()
+        
       }
       required init?(coder: NSCoder) {
              fatalError("init(coder:) has not been implemented")
          }
     
-    func setUpWeatherImageConstraints() {
+    func createTemperatureStackView() -> UIStackView {
+        let stacky = UIStackView(arrangedSubviews: [highTempLabel,lowTempLabel])
+              
+              stacky.axis = .vertical
+              stacky.distribution = .fillEqually
+              stacky.alignment = .fill
+              stacky.spacing = 5
+              stacky.translatesAutoresizingMaskIntoConstraints = false
+        return stacky
+    }
+    
+    func createWeatherImageAndTemperatureStackView() -> UIStackView {
+        let stacky = UIStackView(arrangedSubviews: [weatherImage,temperatureStackView])
+              
+              stacky.axis = .vertical
+              stacky.distribution = .fillEqually
+              stacky.alignment = .fill
+              stacky.spacing = 10
+              stacky.translatesAutoresizingMaskIntoConstraints = false
+        return stacky
+    }
+    
+    func setUpDateLabelConstraints() {
+        self.contentView.addSubview(dateLabel)
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10).isActive = true
+        dateLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 0).isActive = true
+        dateLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: 0).isActive = true
         
+    }
+    func setUpStackViewConstraints() {
+        
+        self.contentView.addSubview(weatherImageAndTemperatureStackView)
+        weatherImageAndTemperatureStackView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 10).isActive = true
+        
+        weatherImageAndTemperatureStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor).isActive = true
+        
+        weatherImageAndTemperatureStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
+        weatherImageAndTemperatureStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
     }
 }

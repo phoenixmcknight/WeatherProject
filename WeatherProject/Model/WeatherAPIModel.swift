@@ -13,6 +13,9 @@ struct WeatherModel: Codable {
     let timezone: String
     let daily: Daily
     
+    func returnTimeZoneWithSpaces() -> String {
+        return timezone.replacingOccurrences(of: "_", with: " ")
+    }
     
 }
 
@@ -48,7 +51,7 @@ struct DailyDatum: Codable {
     
     func getDateFromTime(time:Int) -> String {
         let date = NSDate(timeIntervalSince1970: Double(time))
-        return date.description
+        return date.description.components(separatedBy: " ")[0]
     }
     
     func returnHighTemperatureInF(temp:Double) -> String {
@@ -66,11 +69,26 @@ struct DailyDatum: Codable {
             return UIImage(named: "cloudy")!
             
         case "partly-cloudy-night":
-            return UIImage(named: "pcloudy")!
+            return UIImage(named: "pcloudyn")!
+        case "clear-day":
+            return UIImage(named: "clear")!
             
+        case "clear-night":
+            return UIImage(named:"clearn")!
+        case "partly-cloudy-day":
+            return UIImage(named:"pcloudy" )!
+        case "snow":
+            return UIImage(named: "snow")!
+        case "sleet":
+            return UIImage(named: "sleet")!
+        case "wind":
+            return UIImage(named: "wind")!
+        case "fog":
+            return UIImage(named:"fog")!
         default:
             return UIImage(named: "image")!
         }
     }
 }
+// clear-night, rain, snow, sleet, wind, fog, cloudy, partly-cloudy-day, or partly-cloudy-night. (Developers should ensure that a sensible default is defined, as additional values, such as hail, thunderstorm, or tornado,
 

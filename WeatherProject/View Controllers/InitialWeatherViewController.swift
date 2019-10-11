@@ -10,8 +10,18 @@ import Foundation
 import UIKit
 
 class InitialWeatherViewController:UIViewController {
+     var layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
     
-    var weatherData = [DailyDatum]()
+    var weather = [WeatherModel]() {
+        didSet {
+            cityLabel.text = self.weather[0].returnTimeZoneWithSpaces()
+        }
+    }
+    var weatherData = [DailyDatum]() {
+        didSet {
+            weatherCollectionView.reloadData()
+        }
+    }
     var textString:String = "" {
         didSet {
             weatherCollectionView.reloadData()
@@ -24,11 +34,22 @@ class InitialWeatherViewController:UIViewController {
         label.textColor = .black
         return label
     }()
+    lazy var promptLabel:UILabel = {
+        let label = UILabel()
+         label.backgroundColor = .red
+        label.textAlignment = .center
+        label.textColor = .black
+        return label
+    }()
     
    lazy var weatherCollectionView:UICollectionView = {
-     let colletionView = UICollectionView()
+    let colletionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: layout )
+        
+    layout.scrollDirection = .horizontal
+    layout.itemSize = CGSize(width: 150, height: 150)
+    layout.minimumInteritemSpacing = 625
     colletionView.backgroundColor = .white
-    colletionView.register(InitialWeatherViewController.self, forCellWithReuseIdentifier: "weather")
+    colletionView.register(WeatherCollectionViewCell.self, forCellWithReuseIdentifier: "weather")
     colletionView.dataSource = self
         colletionView.delegate = self
         return colletionView
@@ -37,52 +58,114 @@ class InitialWeatherViewController:UIViewController {
    lazy var weatherTextField:UITextField = {
         let textfield = UITextField()
         textfield.delegate = self
+    textfield.placeholder = "Enter ZipCode"
+    textfield.textColor = .black
+    
         return textfield
+    
     }()
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+ 
+        addSubViews()
+        createCityLabelConstraints()
+        createCollectionViewOutletConstraints()
+        createTextFieldConstraints()
+        createPromptLabelConstraints()
+        
     }
-    
-    func createCityLabelConstraints() {
+    func addSubViews() {
         view.addSubview(cityLabel)
+        view.addSubview(weatherCollectionView)
+        view.addSubview(weatherTextField)
+        view.addSubview(promptLabel)
+    }
+    func createCityLabelConstraints() {
+       
         cityLabel.translatesAutoresizingMaskIntoConstraints = false
-        cityLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+        cityLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 50).isActive = true
         cityLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         cityLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        cityLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
     }
     
     func createCollectionViewOutletConstraints() {
-        view.addSubview(weatherCollectionView)
         weatherCollectionView.translatesAutoresizingMaskIntoConstraints = false
         weatherCollectionView.topAnchor.constraint(equalTo: cityLabel.bottomAnchor).isActive = true
               weatherCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         weatherCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
-        weatherCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+      
     }
 
+    func createTextFieldConstraints() {
+       
+        weatherTextField.textColor = .red
+        weatherTextField.translatesAutoresizingMaskIntoConstraints = false
+        weatherTextField.topAnchor.constraint(equalTo: weatherCollectionView.bottomAnchor, constant: 20).isActive = true
+        weatherTextField.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        weatherTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        weatherTextField.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        
+        weatherTextField.becomeFirstResponder()
+        
+    }
+    func createPromptLabelConstraints() {
+        promptLabel.translatesAutoresizingMaskIntoConstraints = false
+        promptLabel.topAnchor.constraint(equalTo: weatherTextField.bottomAnchor, constant: 5).isActive = true
+        promptLabel.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        promptLabel.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant:-100).isActive = true
+        
+        promptLabel.text = "Enter a ZipCode"
+    }
 
 private func loadData() {
+    
     WeatherApiClient.shared.getWeather(latLong:textString) {
         (results) in
         switch results {
         case .failure(let error):
-            print(error)
+            self.alert(error: error)
             
         case .success(let data):
-            self.weatherData = data
+            self.weather = [data]
+            self.weatherData = data.daily.data
         
         }
     }
     
-}
+    }
+
 }
 extension InitialWeatherViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textString = textField.text ?? ""
-        loadData()
+       
+        ZipCodeHelper.getLatLong(fromZipCode: textField.text!) {
+            (results) in
+            switch results {
+                
+            case .success(let lat, let long):
+                self.textString = "\(lat),\(long)"
+                print(lat)
+                print(long)
+                print(self.textString)
+                self.loadData()
+            case .failure(let error_):
+                self.alert(error: error_)
+            }
+        }
+       
         return true
+    }
+    func alert(error:Error) {
+        let alert =  UIAlertController(title: "Error", message: "Invalid ZipCode :\(error)", preferredStyle: .alert)
+                          let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                          alert.addAction(cancel)
+                          self.present(alert,animated: true)
     }
 }
 extension InitialWeatherViewController: UICollectionViewDataSource,UICollectionViewDelegate {
@@ -99,9 +182,14 @@ extension InitialWeatherViewController: UICollectionViewDataSource,UICollectionV
         cell.lowTempLabel.text = weather.returnLowTemperatureInF(temp: weather.temperatureLow)
        
         cell.weatherImage.image = weather.returnPictureBasedOnIcon(icon: weather.icon)
-        
+        cell.changeColorOfBorderCellFunction = {
+            CustomLayer.shared.createCustomlayer(layer: cell.layer)
+
+        }
+        cell.changeColorOfBorderCellFunction()
         return cell
     }
+    
     
     
 }
