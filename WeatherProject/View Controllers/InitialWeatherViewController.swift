@@ -11,6 +11,9 @@ import UIKit
 
 class InitialWeatherViewController:UIViewController {
     
+    var weatherData = [DailyDatum]()
+    
+   // var weatherTableView
    
     override func viewDidLoad() {
         super.viewDidLoad()
