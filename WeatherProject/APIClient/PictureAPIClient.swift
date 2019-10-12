@@ -17,7 +17,7 @@ class PictureAPIClient {
         
         
         
-        let urlString = "https://pixabay.com/api/?q=\(searchTerm.replacingOccurrences(of: " ", with: "+"))&key=13796584-2f2235b8d92a3da4a6b039cc9"
+        let urlString = "https://pixabay.com/api/?q=\(searchTerm.replacingOccurrences(of: " ", with: "_"))&key=\(SecretKeys.pixaBayKey.lowercased())"
         
         guard let url  = URL(string: urlString) else {
             completionHandler(.failure(.badURL))

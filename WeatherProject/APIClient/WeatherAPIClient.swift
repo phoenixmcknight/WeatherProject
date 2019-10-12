@@ -13,7 +13,7 @@ class WeatherApiClient {
     
     static let shared = WeatherApiClient()
     
-    func getWeather(latLong:String, completionHandler:@escaping(Result<WeatherModel,AppError>) -> Void) {
+    func getWeather(latLong:String, completionHandler:@escaping(Result<[DailyDatum],AppError>) -> Void) {
         let url = "https://api.darksky.net/forecast/\(SecretKeys.darkSkyApiKey)/\(latLong)"
        
         guard let urlString = URL(string:url) else {
@@ -28,7 +28,7 @@ class WeatherApiClient {
                     completionHandler(.failure(error))
                 case.success(let data):
                     do { let weatherData = try JSONDecoder().decode(WeatherModel.self, from: data)
-                        completionHandler(.success(weatherData))
+                        completionHandler(.success(weatherData.daily.data))
                     } catch{
         completionHandler(.failure(.invalidJSONResponse))
                     }

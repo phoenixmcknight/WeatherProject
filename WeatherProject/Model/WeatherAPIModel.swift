@@ -13,12 +13,6 @@ struct WeatherModel: Codable {
     let timezone: String
     let daily: Daily
     
-    func returnTimeZoneWithSpaces() -> String {
-        return timezone.replacingOccurrences(of: "_", with: " ")
-    }
-    func addWordsToTimeZone() -> String {
-     return  "Weather Forecast for \(returnTimeZoneWithSpaces()) for "
-    }
     
 }
 
@@ -53,9 +47,27 @@ struct DailyDatum: Codable {
     let temperatureMaxTime: Int
     
     func getDateFromTime(time:Int) -> String {
-        let date = NSDate(timeIntervalSince1970: Double(time))
-        return date.description.components(separatedBy: " ")[0]
+
+        let date = NSDate(timeIntervalSince1970: TimeInterval(time))
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = DateFormatter.Style.medium //Set time style
+        dateFormatter.dateStyle = DateFormatter.Style.medium //Set date style
+        let testDate = dateFormatter.string(from: date as Date)
+        
+        return testDate.components(separatedBy: " at")[0]
     }
+    
+    func getSpecificTimeFromTime(time:Int) -> String {
+
+        let date = NSDate(timeIntervalSince1970: TimeInterval(time))
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = DateFormatter.Style.medium //Set time style
+        dateFormatter.dateStyle = DateFormatter.Style.medium //Set date style
+        let testDate = dateFormatter.string(from: date as Date)
+        
+        return testDate.components(separatedBy: " at")[1]
+    }
+
     
     func returnHighTemperatureInF(temp:Double) -> String {
         return "High: \(temp)°F"

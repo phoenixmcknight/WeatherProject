@@ -12,11 +12,7 @@ import UIKit
 class InitialWeatherViewController:UIViewController {
      var layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
     
-    var weather = [WeatherModel]() {
-        didSet {
-            cityLabel.text = self.weather[0].returnTimeZoneWithSpaces()
-        }
-    }
+   
     var weatherData = [DailyDatum]() {
         didSet {
             weatherCollectionView.reloadData()
@@ -24,7 +20,12 @@ class InitialWeatherViewController:UIViewController {
     }
     var textString:String = "" {
         didSet {
-            weatherCollectionView.reloadData()
+            loadData()
+        }
+    }
+    var cityName = "" {
+        didSet {
+            cityLabel.text = self.cityName
         }
     }
     
@@ -131,8 +132,8 @@ private func loadData() {
             self.alert(error: error)
             
         case .success(let data):
-            self.weather = [data]
-            self.weatherData = data.daily.data
+           
+            self.weatherData = data
         
         }
     }
@@ -147,18 +148,17 @@ extension InitialWeatherViewController: UITextFieldDelegate {
         ZipCodeHelper.getLatLong(fromZipCode: textField.text!) {
             (results) in
             switch results {
-                
-            case .success(let lat, let long):
+
+            case .success(let lat, let long, let name):
                 self.textString = "\(lat),\(long)"
-                print(lat)
-                print(long)
-                print(self.textString)
-                self.loadData()
+                self.cityName = name
+
+
             case .failure(let error_):
                 self.alert(error: error_)
             }
         }
-       
+
         return true
     }
     func alert(error:Error) {
@@ -190,6 +190,13 @@ extension InitialWeatherViewController: UICollectionViewDataSource,UICollectionV
         return cell
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailVC = DetailWeatherViewContrller()
+        
+        detailVC.passingDailyData = weatherData[indexPath.row]
+        detailVC.cityName = cityName
+        navigationController?.pushViewController(detailVC, animated: true)
+        
+    }
     
 }

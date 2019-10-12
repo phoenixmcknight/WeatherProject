@@ -11,8 +11,18 @@ import UIKit
 
 class DetailWeatherViewContrller:UIViewController {
     
-    var passingWeather:WeatherModel!
+    var cityName:String! {
+        didSet {
+            loadData()
+    }
+    }
     var passingDailyData:DailyDatum!
+ 
+    var pictureData = [Hit]() {
+        didSet {
+            setUpSubViewsWithInformation()
+        }
+    }
     
   lazy  var locationLabel:UILabel = {
     let location = UILabel(center: .center, color: .black)
@@ -22,7 +32,7 @@ class DetailWeatherViewContrller:UIViewController {
     
   lazy  var cityImage:UIImageView = {
         let city = UIImageView()
-    city.contentMode = .scaleAspectFit
+    city.contentMode = .scaleAspectFill
     
         return city
     }()
@@ -75,15 +85,25 @@ class DetailWeatherViewContrller:UIViewController {
         return returnStackViewDetails()
     }()
     
+    lazy var barButton:UIBarButtonItem = {
+        let bar = UIBarButtonItem(title: "Save", style: UIBarButtonItem.Style.plain, target: self, action: nil)
+        return bar
+    }()
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        addSubViews()
         setUpLocationLabelConstraints()
         setUpImageViewConstraints()
         setUpSummaryLabel()
         setUpStackViewDetails()
-        addSubViews()
+        
     }
     func addSubViews() {
+        self.navigationItem.rightBarButtonItem = barButton
         view.addSubview(locationLabel)
         view.addSubview(cityImage)
         view.addSubview(summaryLabel)
@@ -96,12 +116,13 @@ class DetailWeatherViewContrller:UIViewController {
                    stacky.axis = .vertical
                    stacky.distribution = .fillEqually
                    stacky.alignment = .fill
-                   stacky.spacing = 5
+                   stacky.spacing = 10
                    stacky.translatesAutoresizingMaskIntoConstraints = false
              return stacky
     }
     
     func setUpLocationLabelConstraints() {
+        locationLabel.translatesAutoresizingMaskIntoConstraints = false
         locationLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
         locationLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         
@@ -110,12 +131,16 @@ class DetailWeatherViewContrller:UIViewController {
     }
     
     func setUpImageViewConstraints() {
+        cityImage.translatesAutoresizingMaskIntoConstraints = false
+
         cityImage.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 20).isActive = true
         cityImage.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
                
                 cityImage.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     func setUpSummaryLabel() {
+        summaryLabel.translatesAutoresizingMaskIntoConstraints = false
+
         summaryLabel.topAnchor.constraint(equalTo: cityImage.bottomAnchor, constant: 5).isActive = true
         
         summaryLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
@@ -124,6 +149,8 @@ class DetailWeatherViewContrller:UIViewController {
         
     }
     func setUpStackViewDetails() {
+        stackViewDetails.translatesAutoresizingMaskIntoConstraints = false
+
         stackViewDetails.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: 10).isActive = true
         stackViewDetails.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
         stackViewDetails.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
@@ -131,20 +158,58 @@ class DetailWeatherViewContrller:UIViewController {
          stackViewDetails.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     func setUpSubViewsWithInformation() {
-        let location = passingWeather.addWordsToTimeZone()
         let rawDate = passingDailyData.time
         let formattedDate = passingDailyData.getDateFromTime(time: rawDate)
         let highTemp = passingDailyData.returnHighTemperatureInF(temp: passingDailyData.temperatureHigh)
-        let lowTemp = passingDailyData.returnHighTemperatureInF(temp: passingDailyData.temperatureLow)
-      
-        
-        locationLabel.text = "\(location) \(formattedDate)"
+        let lowTemp = passingDailyData.returnLowTemperatureInF(temp: passingDailyData.temperatureLow)
+        let sunrise = passingDailyData.getSpecificTimeFromTime(time: passingDailyData.sunriseTime)
+        let sunset = passingDailyData.getSpecificTimeFromTime(time:passingDailyData.sunsetTime)
+              
+        locationLabel.text = "\(cityName!) : \(formattedDate)"
         summaryLabel.text = passingDailyData.summary
         highTempLabel.text = highTemp
         lowTempLabel.text = lowTemp
+        sunRiseLabel.text = sunrise
+        sunSetLabel.text =  sunset
+        windSpeedLabel.text = "Windspeed: \(passingDailyData.windSpeed)"
+        inchsOfPercipLabel.text = "Inches Of Precipitation: \(passingDailyData.precipIntensity.rounded())"
         
+        if let image = pictureData.randomElement()?.largeImageURL {
+        ImageHelper.shared.getImage(urlStr: image) { (results) in
+            DispatchQueue.main.async {
+                switch results {
+                case .failure(let error):
+                    print(error)
+                    //image picker here
+                case .success(let image):
+                    self.cityImage.image = image
+                }
+            }
+            }
+        } else {
+            cityImage.image = UIImage(named: "imageLoadError-1")
+        }
+    }
+    
+    @objc func saveButton() {
         
     }
+    
+    private func loadData() {
+        PictureAPIClient.shared.getPictures(searchTerm:cityName!) {
+            (results) in
+            DispatchQueue.main.async {
+                switch results {
+                case .failure(let error):
+                    print(error)
+                case .success(let data):
+                    self.pictureData = data
+                    
+                }
+            }
+        }
+    }
+    
     
 }
     extension UILabel {
