@@ -31,10 +31,21 @@ class FavoritesVC:UIViewController {
                tableViewConstraints()
                loadData()
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+       dismiss(animated: true, completion: nil)
+        
+    }
         
     
     func loadData() {
      try? favorites = ImagePersistenceHelper.manager.getPhoto()
+        if favorites.count == 0 {
+            checkIfAnythingHasBeenFavorited()
+        } else {
+            introPopUpAlert()
+
+        }
     }
     func tableViewConstraints() {
         self.view.addSubview(favoritesTableView)
@@ -44,8 +55,17 @@ class FavoritesVC:UIViewController {
                   self.favoritesTableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
                   self.favoritesTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
                 }
+    func introPopUpAlert() {
+        let alert = UIAlertController(title: "Favorites List", message: "Click Photo To Remove", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+        alert.addAction(cancel)
+        present(alert,animated: true)
+    }
 }
 extension FavoritesVC:UITableViewDelegate,UITableViewDataSource {
+    
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favorites.count
     }
@@ -58,7 +78,48 @@ extension FavoritesVC:UITableViewDelegate,UITableViewDataSource {
         return cell
         
     }
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        actionSheet(tag: indexPath.row)
+       
     }
+    
+ 
+    }
+extension FavoritesVC:CellDelegate {
+    func actionSheet(tag: Int) {
+           
+             let alert = UIAlertController(title: "Options", message: "Choose Option", preferredStyle: .actionSheet)
+             let delete = UIAlertAction(title: "Delete", style: .destructive) { (actions) in
+               
+                let currentPhoto = self.favorites[tag].date
+                try? ImagePersistenceHelper.manager.deleteFunction(withID: currentPhoto)
+                self.favorites.remove(at: tag)
+                print(self.favorites.count)
+                
+                
+
+            
+                
+                 
+             }
+             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+             alert.addAction(delete)
+             alert.addAction(cancel)
+             present(alert,animated: true)
+         
+    }
+    
+    func checkIfAnythingHasBeenFavorited() {
+        let alert = UIAlertController(title: "You cannot access this page", message: "Please favorite a photo to access the Favorites tab", preferredStyle: .alert)
+        let dismissAlert = UIAlertAction(title: "Dismiss", style: .cancel) { (action) in
+            self.tabBarController?.selectedIndex = 0
+            
+        }
+            alert.addAction(dismissAlert)
+        present(alert,animated: true)
+       
+    }
+    }
+
     
 

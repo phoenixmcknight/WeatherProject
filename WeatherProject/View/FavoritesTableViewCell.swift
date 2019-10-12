@@ -12,7 +12,7 @@ class FavoritesTableViewCell: UITableViewCell {
 
   lazy  var favoriteImages:UIImageView = {
         let imageview = UIImageView()
-        imageview.contentMode = .scaleAspectFill
+        imageview.contentMode = .center
         return imageview
     }()
    

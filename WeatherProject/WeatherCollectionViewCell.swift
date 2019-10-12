@@ -8,6 +8,9 @@
 
 import UIKit
 
+protocol CellDelegate:AnyObject {
+    func actionSheet(tag:Int)
+}
 
 
 class WeatherCollectionViewCell: UICollectionViewCell {

@@ -31,7 +31,8 @@ class DetailWeatherViewContrller:UIViewController {
     
   lazy  var cityImage:UIImageView = {
         let city = UIImageView()
-    city.contentMode = .scaleAspectFill
+    city.contentMode = .scaleAspectFit
+    
     
         return city
     }()

@@ -20,6 +20,7 @@ class InitialWeatherViewController:UIViewController {
     }
     var textString:String = "" {
         didSet {
+          
             loadData()
         }
     }
@@ -75,6 +76,7 @@ class InitialWeatherViewController:UIViewController {
         createCollectionViewOutletConstraints()
         createTextFieldConstraints()
         createPromptLabelConstraints()
+        checkUserDefaults()
         
     }
     func addSubViews() {
@@ -122,6 +124,14 @@ class InitialWeatherViewController:UIViewController {
         
         promptLabel.text = "Enter a ZipCode"
     }
+    func checkUserDefaults() {
+        if UserDefaultsWrapper.shared.getZipCode() != nil {
+            
+            textString = UserDefaultsWrapper.shared.getZipCode()!
+            zipCodeHelper()
+            weatherTextField.text = UserDefaultsWrapper.shared.getZipCode()
+        }
+    }
 
 private func loadData() {
     
@@ -142,23 +152,29 @@ private func loadData() {
 }
 extension InitialWeatherViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textString = textField.text ?? ""
-       
-        ZipCodeHelper.getLatLong(fromZipCode: textField.text!) {
-            (results) in
-            switch results {
-
-            case .success(let lat, let long, let name):
-                self.textString = "\(lat),\(long)"
-                self.cityName = name
-
-
-            case .failure(let error_):
-                self.alert(error: error_)
-            }
+        if let text = textField.text {
+            textString = text
+            UserDefaultsWrapper.shared.store(zipCodeString: text)
         }
+        
+zipCodeHelper()
 
         return true
+    }
+    func zipCodeHelper() {
+        ZipCodeHelper.getLatLong(fromZipCode: textString) {
+                  (results) in
+                  switch results {
+
+                  case .success(let lat, let long, let name):
+                      self.textString = "\(lat),\(long)"
+                      self.cityName = name
+
+
+                  case .failure(let error_):
+                      self.alert(error: error_)
+                  }
+              }
     }
     func alert(error:Error) {
         let alert =  UIAlertController(title: "Error", message: "Invalid ZipCode :\(error)", preferredStyle: .alert)

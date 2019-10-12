@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		690486572351A3AF005777F1 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690486562351A3AF005777F1 /* UserDefaultsWrapper.swift */; };
 		690A0C192351888F00BE56F3 /* FavoritesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690A0C182351888F00BE56F3 /* FavoritesTableViewCell.swift */; };
 		69912EF52351028C00E3F970 /* cellFormating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69912EF42351028C00E3F970 /* cellFormating.swift */; };
 		69912EF92351267900E3F970 /* PictureAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69912EF82351267900E3F970 /* PictureAPIClient.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		690486562351A3AF005777F1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		690A0C182351888F00BE56F3 /* FavoritesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewCell.swift; sourceTree = "<group>"; };
 		69912EF42351028C00E3F970 /* cellFormating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cellFormating.swift; sourceTree = "<group>"; };
 		69912EF82351267900E3F970 /* PictureAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PictureAPIClient.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 			children = (
 				69BAD44B234FF9AB00F516F3 /* PersistenceHelper.swift */,
 				69BAD44D234FF9B800F516F3 /* ImagePersistence.swift */,
+				690486562351A3AF005777F1 /* UserDefaultsWrapper.swift */,
 			);
 			path = "Persistence Helpers";
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				69BAD44E234FF9B800F516F3 /* ImagePersistence.swift in Sources */,
 				69BAD439234FF6B600F516F3 /* InitialWeatherViewController.swift in Sources */,
 				69BAD43D234FF71700F516F3 /* FavoritesVC.swift in Sources */,
+				690486572351A3AF005777F1 /* UserDefaultsWrapper.swift in Sources */,
 				69912EF92351267900E3F970 /* PictureAPIClient.swift in Sources */,
 				69BAD447234FF80F00F516F3 /* WeatherAPIModel.swift in Sources */,
 				69BAD44A234FF90B00F516F3 /* ApiKey.swift in Sources */,
