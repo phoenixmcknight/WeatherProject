@@ -9,8 +9,6 @@
 import Foundation
 
 struct FavoriteImages:Codable {
-    let tags:String?
-    let favorites:Int?
-    let likes:Int?
-    let imageURL:String?
+    let image:Data
+    let date:String
 }

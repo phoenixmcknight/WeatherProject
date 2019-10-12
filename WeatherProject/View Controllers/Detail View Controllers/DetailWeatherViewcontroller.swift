@@ -10,14 +10,13 @@ import Foundation
 import UIKit
 
 class DetailWeatherViewContrller:UIViewController {
-    
     var cityName:String! {
         didSet {
             loadData()
     }
     }
     var passingDailyData:DailyDatum!
- 
+   
     var pictureData = [Hit]() {
         didSet {
             setUpSubViewsWithInformation()
@@ -86,7 +85,8 @@ class DetailWeatherViewContrller:UIViewController {
     }()
     
     lazy var barButton:UIBarButtonItem = {
-        let bar = UIBarButtonItem(title: "Save", style: UIBarButtonItem.Style.plain, target: self, action: nil)
+        let bar = UIBarButtonItem(title: "Save", style: UIBarButtonItem.Style.plain, target: self, action: #selector(saveButton))
+        bar.isEnabled = false
         return bar
     }()
     
@@ -183,18 +183,34 @@ class DetailWeatherViewContrller:UIViewController {
                     //image picker here
                 case .success(let image):
                     self.cityImage.image = image
+                    self.barButton.isEnabled = true
+                
                 }
             }
             }
         } else {
             cityImage.image = UIImage(named: "imageLoadError-1")
+            cityImage.contentMode = .scaleAspectFit
+            barButton.isEnabled = true
+            
+
         }
     }
     
     @objc func saveButton() {
+
+        let newPhoto = FavoriteImages(image: (cityImage.image?.pngData())!, date: currentDate())
+        
+        try? ImagePersistenceHelper.manager.save(newImage: newPhoto)
+        saveAlert()
         
     }
-    
+    func saveAlert() {
+        let alert = UIAlertController(title: "Saved", message: "Click on the favorites tag to see your saved images", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(ok)
+        self.present(alert,animated: true)
+    }
     private func loadData() {
         PictureAPIClient.shared.getPictures(searchTerm:cityName!) {
             (results) in
@@ -210,7 +226,12 @@ class DetailWeatherViewContrller:UIViewController {
         }
     }
     
-    
+    private func currentDate()->String{
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy HH:mm:ss"
+        return formatter.string(from: date)
+    }
 }
     extension UILabel {
         public convenience init(center:NSTextAlignment,color:UIColor){

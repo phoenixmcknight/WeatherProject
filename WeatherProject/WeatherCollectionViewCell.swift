@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class WeatherCollectionViewCell: UICollectionViewCell {
  lazy   var dateLabel:UILabel = {
         let date = UILabel()
@@ -45,6 +47,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     }()
     
     var changeColorOfBorderCellFunction: (()->()) = {}
+    
 
     override init(frame: CGRect) {
           super.init(frame:frame)

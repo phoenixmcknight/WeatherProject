@@ -129,8 +129,7 @@ private func loadData() {
         (results) in
         switch results {
         case .failure(let error):
-            self.alert(error: error)
-            
+            print(error)
         case .success(let data):
            
             self.weatherData = data
@@ -163,7 +162,7 @@ extension InitialWeatherViewController: UITextFieldDelegate {
     }
     func alert(error:Error) {
         let alert =  UIAlertController(title: "Error", message: "Invalid ZipCode :\(error)", preferredStyle: .alert)
-                          let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel){ (actions) in self.weatherTextField.text = ""}
                           alert.addAction(cancel)
                           self.present(alert,animated: true)
     }
@@ -192,7 +191,6 @@ extension InitialWeatherViewController: UICollectionViewDataSource,UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = DetailWeatherViewContrller()
-        
         detailVC.passingDailyData = weatherData[indexPath.row]
         detailVC.cityName = cityName
         navigationController?.pushViewController(detailVC, animated: true)

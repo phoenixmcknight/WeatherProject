@@ -16,7 +16,7 @@ struct ImagePersistenceHelper {
     }
 
     func getPhoto() throws -> [FavoriteImages] {
-        return try persistenceHelper.getObjects()
+        return try persistenceHelper.getObjects().sorted(by: {$0.date < $1.date})
     }
 
     private let persistenceHelper = PersistenceHelper<FavoriteImages>(fileName: "image.plist")
