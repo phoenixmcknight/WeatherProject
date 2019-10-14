@@ -110,7 +110,6 @@ class SettingsVC:UIViewController {
     func checkPersistenceHelper() {
         if let savedSettings = try? SettingsPersistenceHelper.shared.getSettings() {
             settings = savedSettings
-            print(savedSettings)
         } else {
             let defaultSettings = Settings(windSpeed: true, temperature: true, precipitation: true)
             settings = defaultSettings

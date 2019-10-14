@@ -166,7 +166,7 @@ class DetailWeatherViewContrller:UIViewController {
         let sunrise = passingDailyData.getSpecificTimeFromTime(time: passingDailyData.sunriseTime)
         let sunset = passingDailyData.getSpecificTimeFromTime(time:passingDailyData.sunsetTime)
               
-        locationLabel.text = "\(cityName!) : \(formattedDate)"
+        locationLabel.text = "Weather forecast for \(cityName!) : \(formattedDate)"
       
         summaryLabel.text = passingDailyData.summary
       

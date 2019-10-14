@@ -26,7 +26,7 @@ class InitialWeatherViewController:UIViewController {
     }
     var cityName = "" {
         didSet {
-            cityLabel.text = self.cityName
+            cityLabel.text = "Weather forecast for \(self.cityName)"
         }
     }
     
@@ -67,9 +67,9 @@ class InitialWeatherViewController:UIViewController {
    lazy var weatherTextField:UITextField = {
         let textfield = UITextField()
         textfield.delegate = self
-    textfield.placeholder = "Enter ZipCode Or City Name"
+    textfield.placeholder = "Your Text Goes Here"
     textfield.textColor = .black
-    
+    textfield.contentHorizontalAlignment = .center
         return textfield
     
     }()
@@ -77,7 +77,6 @@ class InitialWeatherViewController:UIViewController {
         super.viewWillAppear(true)
         checkUserDefaults()
         settingsPersistenceHelper()
-        print("\(settings) initialVC")
     }
    
     override func viewDidLoad() {
@@ -129,7 +128,7 @@ class InitialWeatherViewController:UIViewController {
         weatherTextField.topAnchor.constraint(equalTo: weatherCollectionView.bottomAnchor, constant: 20).isActive = true
         weatherTextField.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         weatherTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        weatherTextField.widthAnchor.constraint(equalToConstant: 160).isActive = true
+        weatherTextField.widthAnchor.constraint(equalToConstant: 175).isActive = true
         
         weatherTextField.becomeFirstResponder()
         
@@ -142,7 +141,7 @@ class InitialWeatherViewController:UIViewController {
         xAnchor.isActive = true
         promptLabel.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant:-100).isActive = true
                
-               promptLabel.text = "Enter a ZipCode or City Name"
+               promptLabel.text = "Enter a ZIP Code or City"
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             xAnchor.isActive = false
@@ -214,14 +213,14 @@ zipCodeHelper()
                       self.cityName = name
                       
 
-                  case .failure(let error_):
+                  case .failure( _):
                      UserDefaultsWrapper.shared.store(zipCodeString: "")
-                    self.alert(error: error_)
+                    self.alert()
                   }
               }
     }
-    func alert(error:Error) {
-        let alert =  UIAlertController(title: "Error", message: "Invalid ZipCode :\(error)", preferredStyle: .alert)
+    func alert() {
+        let alert =  UIAlertController(title: "Error", message: "Invalid ZIP Code or City", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel){ (actions) in self.weatherTextField.text = ""
             
         }
