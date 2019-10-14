@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class DetailWeatherViewContrller:UIViewController {
-    var settings:Settings!
+    var detailVCSettings:Settings!
     var cityName:String! {
         didSet {
             loadData()
@@ -163,19 +163,24 @@ class DetailWeatherViewContrller:UIViewController {
     func setUpSubViewsWithInformation() {
         let rawDate = passingDailyData.time
         let formattedDate = passingDailyData.getDateFromTime(time: rawDate)
-        let highTemp = passingDailyData.returnHighTemperatureInF(temp: passingDailyData.temperatureHigh)
-        let lowTemp = passingDailyData.returnLowTemperatureInF(temp: passingDailyData.temperatureLow)
         let sunrise = passingDailyData.getSpecificTimeFromTime(time: passingDailyData.sunriseTime)
         let sunset = passingDailyData.getSpecificTimeFromTime(time:passingDailyData.sunsetTime)
               
         locationLabel.text = "\(cityName!) : \(formattedDate)"
+      
         summaryLabel.text = passingDailyData.summary
-        highTempLabel.text = highTemp
-        lowTempLabel.text = lowTemp
+      
+        highTempLabel.text = passingDailyData.returnHighTemperature(temp: passingDailyData.temperatureHigh, usingImperialMeasurement: detailVCSettings.temperature)
+       
+        lowTempLabel.text = passingDailyData.returnLowTemperature(temp: passingDailyData.temperatureLow, usingInternationalMeasurements: detailVCSettings.temperature)
+       
         sunRiseLabel.text = "Sunrise: \(sunrise) "
+       
         sunSetLabel.text =  "Sunset: \(sunset)"
-        windSpeedLabel.text = "Windspeed: \(passingDailyData.windSpeed) MPH"
-        inchsOfPercipLabel.text = "Inches Of Precipitation: \(passingDailyData.precipIntensity.rounded())"
+       
+        windSpeedLabel.text = passingDailyData.returnWindSpeed(MPH: passingDailyData.windSpeed, usingImperialMeasurement: detailVCSettings.windSpeed)
+       
+        inchsOfPercipLabel.text = passingDailyData.returnPrecipitationMeasurement(inches: passingDailyData.precipIntensity, usingImperialMeasurement: detailVCSettings.precipitation)
         
         if let image = pictureData.randomElement()?.largeImageURL {
         ImageHelper.shared.getImage(urlStr: image) { (results) in
@@ -235,6 +240,7 @@ class DetailWeatherViewContrller:UIViewController {
         formatter.dateFormat = "MM/dd/yyyy HH:mm:ss"
         return formatter.string(from: date)
     }
+    
 }
     extension UILabel {
         public convenience init(center:NSTextAlignment,color:UIColor){

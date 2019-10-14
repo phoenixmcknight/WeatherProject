@@ -14,7 +14,7 @@ class SettingsVC:UIViewController {
     var settings:Settings!
     var promptLabel:UILabel = {
         let frame = UIScreen.main.bounds
-        let label = UILabel(frame: CGRect(x: frame.maxX / 2, y: frame.maxY * 0.1, width: frame.width , height: frame.height * 0.05))
+        let label = UILabel(frame: CGRect(x: frame.minX - 10, y: frame.maxY * 0.1, width: frame.width , height: frame.height * 0.05))
         label.textAlignment = .center
         label.textColor = .black
         label.text = "Settings Menu"
@@ -47,7 +47,7 @@ class SettingsVC:UIViewController {
        }()
     
     var precipitationSegmentedController:UISegmentedControl = {
-              let items = ["Precipitation in inches","Precipitation in meters"]
+              let items = ["Precipitation in Inches","Precipitation in Meters"]
               let frame = UIScreen.main.bounds
               let segment = UISegmentedControl(items: items)
              
@@ -59,14 +59,15 @@ class SettingsVC:UIViewController {
               return segment
           }()
     
+    
     @objc func changeTemperatureMeasurement(sender:UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
             settings.temperature = true
-            UserDefaultsWrapper.shared.store(settings: settings)
+            try? SettingsPersistenceHelper.shared.save(newSetting: settings)
         case 1:
             settings.temperature = false
-            UserDefaultsWrapper.shared.store(settings: settings)
+            try? SettingsPersistenceHelper.shared.save(newSetting: settings)
 
         default:
             print("error")
@@ -76,12 +77,12 @@ class SettingsVC:UIViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             settings.windSpeed = true
-            UserDefaultsWrapper.shared.store(settings: settings)
+            try? SettingsPersistenceHelper.shared.save(newSetting: settings)
 
         case 1:
             settings.windSpeed = false
-            UserDefaultsWrapper.shared.store(settings: settings)
-
+            try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+            
         default:
             print("error")
         }
@@ -90,12 +91,10 @@ class SettingsVC:UIViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             settings.precipitation = true
-            UserDefaultsWrapper.shared.store(settings: settings)
-
+            try? SettingsPersistenceHelper.shared.save(newSetting: settings)
         case 1:
             settings.precipitation = false
-            UserDefaultsWrapper.shared.store(settings: settings)
-
+            try? SettingsPersistenceHelper.shared.save(newSetting: settings)
         default:
             print("error")
         }
@@ -103,12 +102,41 @@ class SettingsVC:UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkUserDefaults()
+        view.backgroundColor = .white
+        checkPersistenceHelper()
+        addSubViews()
+        setUpSegmentIndexes()
     }
-    func checkUserDefaults() {
-        if UserDefaultsWrapper.shared.getSettingsMenu() != nil {
-            settings = UserDefaultsWrapper.shared.getSettingsMenu()
+    func checkPersistenceHelper() {
+        if let savedSettings = try? SettingsPersistenceHelper.shared.getSettings() {
+            settings = savedSettings
+            print(savedSettings)
+        } else {
+            let defaultSettings = Settings(windSpeed: true, temperature: true, precipitation: true)
+            settings = defaultSettings
         }
+        
+        
+    }
+    func setUpSegmentIndexes() {
+        if settings.windSpeed { windSpeedSegmentedController.selectedSegmentIndex = 0 } else { windSpeedSegmentedController.selectedSegmentIndex = 1 }
+        
+        if settings.temperature {
+            tempSegmentedController.selectedSegmentIndex = 0 } else {
+            tempSegmentedController.selectedSegmentIndex = 1
+        }
+        if settings.precipitation {
+                  precipitationSegmentedController.selectedSegmentIndex = 0 } else {
+                  precipitationSegmentedController.selectedSegmentIndex = 1
+              }
+    }
+    func addSubViews() {
+        self.view.addSubview(tempSegmentedController)
+        self.view.addSubview(windSpeedSegmentedController)
+        self.view.addSubview(precipitationSegmentedController)
+        self.view.addSubview(promptLabel)
+
+
     }
 }
 

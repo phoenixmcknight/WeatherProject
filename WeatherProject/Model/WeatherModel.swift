@@ -73,7 +73,7 @@ struct DailyDatum: Codable {
         
         switch usingImperialMeasurement {
         case false :
-              return "High: \(((temp - 32) * 5/9))°C"
+            return "High: \(((temp - 32) * 5/9).rounded())°C"
         
         case true :
         
@@ -87,7 +87,7 @@ struct DailyDatum: Codable {
         case true:
         return "Low: \(temp)°F"
         case false:
-            return "Low: \(((temp - 32) * 5/9))°C"
+            return "Low: \(((temp - 32) * 5/9).rounded())°C"
     }
     }
     
@@ -96,18 +96,18 @@ struct DailyDatum: Codable {
     func returnPrecipitationMeasurement(inches:Double,usingImperialMeasurement:Bool) -> String {
         switch usingImperialMeasurement {
         case false:
-            return "Meters Of Precipitation: \(inches * 2.54)"
+            return "Meters Of Precipitation: \((inches * 2.54).rounded())"
         case true:
-            return "Inches Of Precipitation: \(inches)"
+            return "Inches Of Precipitation: \(inches.rounded())"
         
     }
     }
     
         func returnWindSpeed(MPH:Double,usingImperialMeasurement:Bool) -> String {
             switch usingImperialMeasurement {
-            case true :
-            return "Windspeed: \(MPH * 1.609) KM/H"
             case false :
+                return "Windspeed: \((MPH * 1.609).rounded()) KM/H"
+            case true :
                 return "Windspeed: \(MPH) MPH"
     }
     }

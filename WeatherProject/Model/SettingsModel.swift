@@ -8,10 +8,9 @@
 
 import Foundation
 
-struct Settings {
-    var windSpeed = true
-    var temperature = true
-    var precipitation = true
-    
+struct Settings:Codable {
+    var windSpeed:Bool
+    var temperature:Bool
+    var precipitation:Bool
     //set up in settings VC then switch on variables
 }

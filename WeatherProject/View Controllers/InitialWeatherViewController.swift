@@ -44,6 +44,13 @@ class InitialWeatherViewController:UIViewController {
         return label
     }()
     
+    lazy var settingsButton:UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: self, action: #selector(settingsButtonAction))
+        button.image = UIImage(named: "gearbox")
+        return button
+    }()
+
+    
    lazy var weatherCollectionView:UICollectionView = {
     let colletionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: layout )
     
@@ -66,6 +73,12 @@ class InitialWeatherViewController:UIViewController {
         return textfield
     
     }()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        checkUserDefaults()
+        settingsPersistenceHelper()
+        print("\(settings) initialVC")
+    }
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,10 +89,15 @@ class InitialWeatherViewController:UIViewController {
         createCollectionViewOutletConstraints()
         createTextFieldConstraints()
         createPromptLabelConstraints()
-        checkUserDefaults()
         
     }
+    @objc func settingsButtonAction() {
+        let settingsVC = SettingsVC()
+       // settingsVC.modalPresentationStyle = .currentContext
+        navigationController?.pushViewController(settingsVC, animated: true)
+    }
     func addSubViews() {
+        self.navigationItem.rightBarButtonItem = settingsButton
         view.addSubview(cityLabel)
         view.addSubview(weatherCollectionView)
         view.addSubview(weatherTextField)
@@ -146,6 +164,15 @@ class InitialWeatherViewController:UIViewController {
             }
             weatherTextField.text = UserDefaultsWrapper.shared.getZipCode()
         }
+       
+    }
+    func settingsPersistenceHelper() {
+        if let savedSettings = try? SettingsPersistenceHelper.shared.getSettings() {
+                   settings = savedSettings
+               } else {
+                   let defaultSettings = Settings(windSpeed: true, temperature: true, precipitation: true)
+                   settings = defaultSettings
+               }
     }
 
 private func loadData() {
@@ -163,9 +190,7 @@ private func loadData() {
     }
     
     }
-    func checkUserDefaults() {
-        
-    }
+    
 }
 extension InitialWeatherViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -214,8 +239,8 @@ extension InitialWeatherViewController: UICollectionViewDataSource,UICollectionV
         let cell = weatherCollectionView.dequeueReusableCell(withReuseIdentifier: "weather", for: indexPath) as! WeatherCollectionViewCell
         
         cell.dateLabel.text = weather.getDateFromTime(time: weather.time)
-        cell.highTempLabel.text = weather.returnHighTemperatureInF(temp: weather.temperatureHigh)
-        cell.lowTempLabel.text = weather.returnLowTemperatureInF(temp: weather.temperatureLow)
+        cell.highTempLabel.text = weather.returnHighTemperature(temp: weather.temperatureHigh, usingImperialMeasurement: settings.temperature)
+        cell.lowTempLabel.text = weather.returnLowTemperature(temp: weather.temperatureLow, usingInternationalMeasurements: settings.temperature)
        
         cell.weatherImage.image = weather.returnPictureBasedOnIcon(icon: weather.icon)
         cell.changeColorOfBorderCellFunction = {
@@ -229,6 +254,7 @@ extension InitialWeatherViewController: UICollectionViewDataSource,UICollectionV
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = DetailWeatherViewContrller()
         detailVC.passingDailyData = weatherData[indexPath.row]
+        detailVC.detailVCSettings = settings
         detailVC.cityName = cityName
         navigationController?.pushViewController(detailVC, animated: true)
         
