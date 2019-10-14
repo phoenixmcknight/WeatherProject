@@ -50,7 +50,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     }()
     
     var changeColorOfBorderCellFunction: (()->()) = {}
-    
+
 
     override init(frame: CGRect) {
           super.init(frame:frame)

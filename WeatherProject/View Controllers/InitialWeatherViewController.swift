@@ -15,8 +15,10 @@ class InitialWeatherViewController:UIViewController {
    
     var weatherData = [DailyDatum]() {
         didSet {
-            weatherCollectionView.reloadData()
-        }
+            
+                self.weatherCollectionView.reloadData()
+            }
+        
     }
     var textString:String = "" {
         didSet {
@@ -38,9 +40,9 @@ class InitialWeatherViewController:UIViewController {
     }()
     lazy var promptLabel:UILabel = {
         let label = UILabel()
-         label.backgroundColor = .red
         label.textAlignment = .center
         label.textColor = .black
+        label.alpha = 0.0
         return label
     }()
     
@@ -57,7 +59,6 @@ class InitialWeatherViewController:UIViewController {
     layout.scrollDirection = .horizontal
     layout.itemSize = CGSize(width: 150, height: 150)
     layout.minimumInteritemSpacing = 625
-    colletionView.backgroundColor = .white
     colletionView.register(WeatherCollectionViewCell.self, forCellWithReuseIdentifier: "weather")
     colletionView.dataSource = self
         colletionView.delegate = self
@@ -77,11 +78,21 @@ class InitialWeatherViewController:UIViewController {
         super.viewWillAppear(true)
         checkUserDefaults()
         settingsPersistenceHelper()
+        UIView.animate(withDuration: 0.0, delay: 0.8, options: [.curveEaseIn], animations: {
+        
+        }) { (_) in
+            UIView.animate(withDuration: 2, delay: 0.0, options: [.curveEaseOut], animations: {
+                self.view.backgroundColor = .white
+                self.weatherCollectionView.backgroundColor = .white
+                self.promptLabel.backgroundColor = .white
+                self.tabBarController?.tabBar.backgroundColor = .white
+
+            }, completion: nil)
+        }
     }
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
  
         addSubViews()
         createCityLabelConstraints()
@@ -90,6 +101,8 @@ class InitialWeatherViewController:UIViewController {
         createPromptLabelConstraints()
         
     }
+    
+    
     @objc func settingsButtonAction() {
         let settingsVC = SettingsVC()
        // settingsVC.modalPresentationStyle = .currentContext
@@ -147,8 +160,9 @@ class InitialWeatherViewController:UIViewController {
             xAnchor.isActive = false
             xAnchor = self.promptLabel.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor)
             xAnchor.isActive = true
-            UIView.animate(withDuration: 5, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.5, options: .curveEaseIn,animations: {
+            UIView.animate(withDuration: 5, delay: 0.8, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.5, options: .curveEaseIn,animations: {
                 self.view.layoutIfNeeded()
+                self.promptLabel.alpha = 1.0
             })
        
     }
@@ -237,6 +251,7 @@ extension InitialWeatherViewController: UICollectionViewDataSource,UICollectionV
         let weather = weatherData[indexPath.row]
         let cell = weatherCollectionView.dequeueReusableCell(withReuseIdentifier: "weather", for: indexPath) as! WeatherCollectionViewCell
         
+        
         cell.dateLabel.text = weather.getDateFromTime(time: weather.time)
         cell.highTempLabel.text = weather.returnHighTemperature(temp: weather.temperatureHigh, usingImperialMeasurement: settings.temperature)
         cell.lowTempLabel.text = weather.returnLowTemperature(temp: weather.temperatureLow, usingInternationalMeasurements: settings.temperature)
@@ -248,15 +263,20 @@ extension InitialWeatherViewController: UICollectionViewDataSource,UICollectionV
         }
         cell.changeColorOfBorderCellFunction()
         return cell
+             
     }
+        
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailVC = DetailWeatherViewContrller()
         detailVC.passingDailyData = weatherData[indexPath.row]
         detailVC.detailVCSettings = settings
         detailVC.cityName = cityName
-        navigationController?.pushViewController(detailVC, animated: true)
+        self.navigationController?.pushViewController(detailVC, animated: false)
+        UIView.transition(from: self.view, to: detailVC.view, duration: 2.5, options: [.transitionCurlUp],completion: nil)
+        }
+       
         
-    }
+    
     
 }

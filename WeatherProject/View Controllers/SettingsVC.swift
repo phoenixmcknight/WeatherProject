@@ -64,10 +64,10 @@ class SettingsVC:UIViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             settings.temperature = true
-            try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+       //     try? SettingsPersistenceHelper.shared.save(newSetting: settings)
         case 1:
             settings.temperature = false
-            try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+     //       try? SettingsPersistenceHelper.shared.save(newSetting: settings)
 
         default:
             print("error")
@@ -77,11 +77,11 @@ class SettingsVC:UIViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             settings.windSpeed = true
-            try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+        //    try? SettingsPersistenceHelper.shared.save(newSetting: settings)
 
         case 1:
             settings.windSpeed = false
-            try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+        //    try? SettingsPersistenceHelper.shared.save(newSetting: settings)
             
         default:
             print("error")
@@ -91,10 +91,10 @@ class SettingsVC:UIViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             settings.precipitation = true
-            try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+         //  try? SettingsPersistenceHelper.shared.save(newSetting: settings)
         case 1:
             settings.precipitation = false
-            try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+       //     try? SettingsPersistenceHelper.shared.save(newSetting: settings)
         default:
             print("error")
         }
@@ -106,6 +106,10 @@ class SettingsVC:UIViewController {
         checkPersistenceHelper()
         addSubViews()
         setUpSegmentIndexes()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        try? SettingsPersistenceHelper.shared.save(newSetting: settings)
     }
     func checkPersistenceHelper() {
         if let savedSettings = try? SettingsPersistenceHelper.shared.getSettings() {
