@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class DetailWeatherViewContrller:UIViewController {
+    var settings:Settings!
     var cityName:String! {
         didSet {
             loadData()
@@ -20,6 +21,7 @@ class DetailWeatherViewContrller:UIViewController {
     var pictureData = [Hit]() {
         didSet {
             setUpSubViewsWithInformation()
+           
         }
     }
     
@@ -170,9 +172,9 @@ class DetailWeatherViewContrller:UIViewController {
         summaryLabel.text = passingDailyData.summary
         highTempLabel.text = highTemp
         lowTempLabel.text = lowTemp
-        sunRiseLabel.text = sunrise
-        sunSetLabel.text =  sunset
-        windSpeedLabel.text = "Windspeed: \(passingDailyData.windSpeed)"
+        sunRiseLabel.text = "Sunrise: \(sunrise) "
+        sunSetLabel.text =  "Sunset: \(sunset)"
+        windSpeedLabel.text = "Windspeed: \(passingDailyData.windSpeed) MPH"
         inchsOfPercipLabel.text = "Inches Of Precipitation: \(passingDailyData.precipIntensity.rounded())"
         
         if let image = pictureData.randomElement()?.largeImageURL {

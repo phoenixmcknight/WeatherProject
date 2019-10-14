@@ -69,11 +69,47 @@ struct DailyDatum: Codable {
     }
 
     
-    func returnHighTemperatureInF(temp:Double) -> String {
+    func returnHighTemperature(temp:Double, usingImperialMeasurement:Bool) -> String {
+        
+        switch usingImperialMeasurement {
+        case false :
+              return "High: \(((temp - 32) * 5/9))°C"
+        
+        case true :
+        
         return "High: \(temp)°F"
     }
-    func returnLowTemperatureInF(temp:Double) -> String {
+    }
+    func returnLowTemperature(temp:Double,usingInternationalMeasurements:Bool) -> String {
+        
+        switch usingInternationalMeasurements {
+            
+        case true:
         return "Low: \(temp)°F"
+        case false:
+            return "Low: \(((temp - 32) * 5/9))°C"
+    }
+    }
+    
+  
+    
+    func returnPrecipitationMeasurement(inches:Double,usingImperialMeasurement:Bool) -> String {
+        switch usingImperialMeasurement {
+        case false:
+            return "Meters Of Precipitation: \(inches * 2.54)"
+        case true:
+            return "Inches Of Precipitation: \(inches)"
+        
+    }
+    }
+    
+        func returnWindSpeed(MPH:Double,usingImperialMeasurement:Bool) -> String {
+            switch usingImperialMeasurement {
+            case true :
+            return "Windspeed: \(MPH * 1.609) KM/H"
+            case false :
+                return "Windspeed: \(MPH) MPH"
+    }
     }
     
     func returnPictureBasedOnIcon(icon:String) -> UIImage {

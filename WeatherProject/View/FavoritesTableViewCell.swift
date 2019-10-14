@@ -15,7 +15,8 @@ class FavoritesTableViewCell: UITableViewCell {
         imageview.contentMode = .center
         return imageview
     }()
-   
+   var changeColorOfBorderCellFunction: (()->()) = {}
+
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

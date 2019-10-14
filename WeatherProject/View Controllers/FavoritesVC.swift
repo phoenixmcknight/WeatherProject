@@ -73,7 +73,11 @@ extension FavoritesVC:UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let favorite = favorites[indexPath.row]
         let cell = favoritesTableView.dequeueReusableCell(withIdentifier: cellID) as! FavoritesTableViewCell
-        
+        cell.changeColorOfBorderCellFunction = {
+            CustomLayer.shared.createCustomlayer(layer: cell.layer)
+        }
+        cell.changeColorOfBorderCellFunction()
+        cell.layer.cornerRadius = 0
         cell.favoriteImages.image = UIImage(data: favorite.image)
         return cell
         
