@@ -12,7 +12,7 @@ import UIKit
 class SettingsVC:UIViewController {
     //MARK: Variables - Instances of Structs / Classes
     var settings:Settings!
-    
+    var rgbColor = RGBValue()
     //MARK:Variables - Outlets
     
     var promptLabel:UILabel = {
@@ -70,11 +70,11 @@ class SettingsVC:UIViewController {
         case 0:
             segmentAnimations()
             settings.temperature = true
-            
+            changeBackgroundColor()
         case 1:
             segmentAnimations()
             settings.temperature = false
-            
+            changeBackgroundColor()
         default:
             print("error")
         }
@@ -84,12 +84,12 @@ class SettingsVC:UIViewController {
         case 0:
             settings.windSpeed = true
             segmentAnimations()
-            
+            changeBackgroundColor()
             
         case 1:
             settings.windSpeed = false
             segmentAnimations()
-            
+            changeBackgroundColor()
             
         default:
             print("error")
@@ -100,10 +100,12 @@ class SettingsVC:UIViewController {
         case 0:
             settings.precipitation = true
             segmentAnimations()
+            changeBackgroundColor()
             
         case 1:
             settings.precipitation = false
             segmentAnimations()
+            changeBackgroundColor()
             
         default:
             print("error")
@@ -123,6 +125,11 @@ class SettingsVC:UIViewController {
     }
     
     //MARK: Functions - Miscellaneous
+    
+    func changeBackgroundColor() {
+        rgbColor = RGBValue()
+        self.view.backgroundColor = rgbColor.createRGBColor()
+    }
     
     func checkPersistenceHelper() {
         if let savedSettings = try? SettingsPersistenceHelper.shared.getSettings() {

@@ -270,6 +270,6 @@ extension InitialWeatherViewController: UICollectionViewDataSource,UICollectionV
         detailVC.detailVCSettings = settings
         detailVC.cityName = cityName
         self.navigationController?.pushViewController(detailVC, animated: false)
-        UIView.transition(from: self.view, to: detailVC.view, duration: 2.5, options: [.transitionCurlUp],completion: nil)
+        UIView.transition(from: self.view, to: detailVC.view, duration: 3.5, options: [.transitionCurlUp],completion: nil)
     }
 }

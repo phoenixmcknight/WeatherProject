@@ -37,6 +37,8 @@ class DetailWeatherViewContrller:UIViewController {
     lazy var placeholderActivity:UIImageView = {
         
         let image = UIImageView()
+        image.image = UIImage(named: "clear")
+    
         return image
     }()
     

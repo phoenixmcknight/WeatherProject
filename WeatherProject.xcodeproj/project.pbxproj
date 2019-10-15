@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		690143D92355232C00C04F0B /* SecretAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690143D82355232C00C04F0B /* SecretAPIKeys.swift */; };
 		690143DC23554B4100C04F0B /* Round Numbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690143DB23554B4100C04F0B /* Round Numbers.swift */; };
+		6901441C235677DE00C04F0B /* RGBColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6901441B235677DE00C04F0B /* RGBColors.swift */; };
 		690486572351A3AF005777F1 /* UserDefaultsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690486562351A3AF005777F1 /* UserDefaultsWrapper.swift */; };
 		690A0C192351888F00BE56F3 /* FavoritesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690A0C182351888F00BE56F3 /* FavoritesTableViewCell.swift */; };
 		69912EF52351028C00E3F970 /* cellFormating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69912EF42351028C00E3F970 /* cellFormating.swift */; };
@@ -59,6 +60,7 @@
 /* Begin PBXFileReference section */
 		690143D82355232C00C04F0B /* SecretAPIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretAPIKeys.swift; sourceTree = "<group>"; };
 		690143DB23554B4100C04F0B /* Round Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Round Numbers.swift"; sourceTree = "<group>"; };
+		6901441B235677DE00C04F0B /* RGBColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RGBColors.swift; sourceTree = "<group>"; };
 		690486562351A3AF005777F1 /* UserDefaultsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWrapper.swift; sourceTree = "<group>"; };
 		690A0C182351888F00BE56F3 /* FavoritesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewCell.swift; sourceTree = "<group>"; };
 		69912EF42351028C00E3F970 /* cellFormating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cellFormating.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 		69BAD431234FF3BB00F516F3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6901441B235677DE00C04F0B /* RGBColors.swift */,
 				69CEC5AB2350B9DE00004250 /* ZipCodeHelper.swift */,
 				69912EFC2351274200E3F970 /* FavoriteImages.swift */,
 				69912EFA235126AA00E3F970 /* Picture Model.swift */,
@@ -413,6 +416,7 @@
 				69CEC5AC2350B9DE00004250 /* ZipCodeHelper.swift in Sources */,
 				69912EF52351028C00E3F970 /* cellFormating.swift in Sources */,
 				690A0C192351888F00BE56F3 /* FavoritesTableViewCell.swift in Sources */,
+				6901441C235677DE00C04F0B /* RGBColors.swift in Sources */,
 				69BAD441234FF7ED00F516F3 /* NetworkHelper.swift in Sources */,
 				69BAD403234FF2E800F516F3 /* SceneDelegate.swift in Sources */,
 				690143D92355232C00C04F0B /* SecretAPIKeys.swift in Sources */,
