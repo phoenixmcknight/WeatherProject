@@ -85,7 +85,7 @@ class InitialWeatherViewController:UIViewController {
         UIView.animate(withDuration: 0.0, delay: 0.8, options: [.curveEaseIn], animations: {
             
         }) { (_) in
-            UIView.animate(withDuration: 2, delay: 0.0, options: [.curveEaseOut], animations: {
+            UIView.animate(withDuration: 3.5, delay: 0.0, options: [.curveEaseOut], animations: {
                 self.view.backgroundColor = #colorLiteral(red: 0.3, green: 0.3, blue: 0.8, alpha: 1.0)
                 self.weatherCollectionView.backgroundColor = #colorLiteral(red: 0.3, green: 0.3, blue: 0.8, alpha: 1.0)
                
