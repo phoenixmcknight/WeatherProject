@@ -140,6 +140,12 @@ struct DailyDatum: Codable {
             return UIImage(named: "image")!
         }
     }
+    func currentDate()->String{
+           let date = Date()
+           let formatter = DateFormatter()
+           formatter.dateFormat = "MM/dd/yyyy HH:mm:ss"
+           return formatter.string(from: date)
+       }
 }
 // clear-night, rain, snow, sleet, wind, fog, cloudy, partly-cloudy-day, or partly-cloudy-night. (Developers should ensure that a sensible default is defined, as additional values, such as hail, thunderstorm, or tornado,
 

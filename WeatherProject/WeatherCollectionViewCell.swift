@@ -41,12 +41,26 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     
    lazy var temperatureStackView:UIStackView = {
         
+        let stacky = UIStackView(arrangedSubviews: [highTempLabel,lowTempLabel])
+                    
+                    stacky.axis = .vertical
+                    stacky.distribution = .fillEqually
+                    stacky.alignment = .fill
+                    stacky.spacing = 5
+                    stacky.translatesAutoresizingMaskIntoConstraints = false
+              return stacky
         
-        return createTemperatureStackView()
     }()
     
     lazy var weatherImageAndTemperatureStackView:UIStackView = {
-        return createWeatherImageAndTemperatureStackView()
+         let stacky = UIStackView(arrangedSubviews: [weatherImage,temperatureStackView])
+                     
+                     stacky.axis = .vertical
+                     stacky.distribution = .fillEqually
+                     stacky.alignment = .fill
+                     stacky.spacing = 10
+                     stacky.translatesAutoresizingMaskIntoConstraints = false
+               return stacky
     }()
     
     var changeColorOfBorderCellFunction: (()->()) = {}
@@ -61,27 +75,9 @@ class WeatherCollectionViewCell: UICollectionViewCell {
       }
      
     
-    func createTemperatureStackView() -> UIStackView {
-        let stacky = UIStackView(arrangedSubviews: [highTempLabel,lowTempLabel])
-              
-              stacky.axis = .vertical
-              stacky.distribution = .fillEqually
-              stacky.alignment = .fill
-              stacky.spacing = 5
-              stacky.translatesAutoresizingMaskIntoConstraints = false
-        return stacky
-    }
+   
     
-    func createWeatherImageAndTemperatureStackView() -> UIStackView {
-        let stacky = UIStackView(arrangedSubviews: [weatherImage,temperatureStackView])
-              
-              stacky.axis = .vertical
-              stacky.distribution = .fillEqually
-              stacky.alignment = .fill
-              stacky.spacing = 10
-              stacky.translatesAutoresizingMaskIntoConstraints = false
-        return stacky
-    }
+    
     
     func setUpDateLabelConstraints() {
         self.contentView.addSubview(dateLabel)

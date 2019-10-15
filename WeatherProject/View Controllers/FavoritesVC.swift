@@ -10,12 +10,15 @@ import Foundation
 import UIKit
 
 class FavoritesVC:UIViewController {
-    let cellID = "favorites"
+   private let cellID = "favorites"
+   //MARK: Variables - Instances of Structs
     var favorites = [FavoriteImages]() {
         didSet {
             favoritesTableView.reloadData()
         }
     }
+    //MARK:Variables - Outlets
+    
    lazy var favoritesTableView:UITableView = {
         let tableView = UITableView()
         tableView.register(FavoritesTableViewCell.self, forCellReuseIdentifier: cellID)
@@ -38,15 +41,10 @@ class FavoritesVC:UIViewController {
     }
         
     
-    func loadData() {
-     try? favorites = ImagePersistenceHelper.manager.getPhoto()
-        if favorites.count == 0 {
-            checkIfAnythingHasBeenFavorited()
-        } else {
-            introPopUpAlert()
-
-        }
-    }
+   
+    
+    //MARK: Functions - Constraints
+    
     func tableViewConstraints() {
         self.view.addSubview(favoritesTableView)
         self.favoritesTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -55,6 +53,17 @@ class FavoritesVC:UIViewController {
                   self.favoritesTableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
                   self.favoritesTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
                 }
+   //MARK: Functions - Miscellaneous
+    func loadData() {
+        try? favorites = ImagePersistenceHelper.manager.getPhoto()
+           if favorites.count == 0 {
+               checkIfAnythingHasBeenFavorited()
+           } else {
+               introPopUpAlert()
+
+           }
+       }
+    
     func introPopUpAlert() {
         let alert = UIAlertController(title: "Favorites List", message: "Click Photo To Remove", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
@@ -62,6 +71,9 @@ class FavoritesVC:UIViewController {
         present(alert,animated: true)
     }
 }
+
+//MARK: Extensions
+
 extension FavoritesVC:UITableViewDelegate,UITableViewDataSource {
     
     
