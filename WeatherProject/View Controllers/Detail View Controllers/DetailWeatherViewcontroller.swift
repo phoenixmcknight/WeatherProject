@@ -214,7 +214,7 @@ class DetailWeatherViewContrller:UIViewController {
         
     }
     func saveAlert() {
-        let alert = UIAlertController(title: "Saved", message: "Click on the favorites tag to see your saved images", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Saved", message: "Click on the 'favorites' tag to see your saved images", preferredStyle: .alert)
         let ok = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alert.addAction(ok)
         self.present(alert,animated: true)

@@ -16,7 +16,7 @@ class InitialWeatherViewController:UIViewController {
     var weatherData = [DailyDatum]() {
         didSet {
             
-                self.weatherCollectionView.reloadData()
+               self.weatherCollectionView.reloadData()
             }
         
     }
@@ -128,7 +128,7 @@ class InitialWeatherViewController:UIViewController {
     func createCollectionViewOutletConstraints() {
         weatherCollectionView.translatesAutoresizingMaskIntoConstraints = false
         weatherCollectionView.topAnchor.constraint(equalTo: cityLabel.bottomAnchor).isActive = true
-              weatherCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+              weatherCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,constant: -500).isActive = true
         weatherCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         
       
@@ -149,7 +149,7 @@ class InitialWeatherViewController:UIViewController {
     func createPromptLabelConstraints() {
         promptLabel.translatesAutoresizingMaskIntoConstraints = false
         promptLabel.topAnchor.constraint(equalTo: weatherTextField.bottomAnchor, constant: 5).isActive = true
-        //promptLabel.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        
         var xAnchor = promptLabel.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor,constant: 200)
         xAnchor.isActive = true
         promptLabel.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant:-100).isActive = true

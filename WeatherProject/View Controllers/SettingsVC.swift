@@ -60,14 +60,18 @@ class SettingsVC:UIViewController {
           }()
     
     
+    
     @objc func changeTemperatureMeasurement(sender:UISegmentedControl) {
+
         switch sender.selectedSegmentIndex {
         case 0:
+            segmentAnimations()
             settings.temperature = true
-       //     try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+           
         case 1:
+            segmentAnimations()
             settings.temperature = false
-     //       try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+     
 
         default:
             print("error")
@@ -77,11 +81,13 @@ class SettingsVC:UIViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             settings.windSpeed = true
-        //    try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+       segmentAnimations()
+
 
         case 1:
             settings.windSpeed = false
-        //    try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+                segmentAnimations()
+
             
         default:
             print("error")
@@ -91,10 +97,12 @@ class SettingsVC:UIViewController {
         switch sender.selectedSegmentIndex {
         case 0:
             settings.precipitation = true
-         //  try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+                 segmentAnimations()
+
         case 1:
             settings.precipitation = false
-       //     try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+               segmentAnimations()
+
         default:
             print("error")
         }
@@ -121,6 +129,34 @@ class SettingsVC:UIViewController {
         
         
     }
+    func segmentAnimations() {
+       
+        UIView.animate(withDuration: 1.5, delay: 0.0, options: [.curveEaseOut], animations: changeSegmentedIndex, completion: nil)
+    }
+        
+    
+        func changeSegmentedIndex() {
+            let frame = UIScreen.main.bounds
+                   let first = CGRect(x: frame.minX + 10, y: frame.maxY * 0.2, width: frame.width - 10, height: frame.maxY * 0.1)
+                   let second = CGRect(x: frame.minX + 10, y: frame.maxY * 0.4, width: frame.width - 10, height: frame.maxY * 0.1)
+                   let third = CGRect(x: frame.minX + 10, y: frame.maxY * 0.6, width: frame.width - 10, height: frame.maxY * 0.1)
+    
+            let segmentArray = [tempSegmentedController,windSpeedSegmentedController,precipitationSegmentedController]
+            
+            for i in segmentArray {
+                      switch i.frame {
+                      case first:
+                          i.frame = third
+                      case second:
+                          i.frame = first
+                      case third:
+                          i.frame = second
+                      default:
+                          return
+                      }
+                      
+                  }
+        }
     func setUpSegmentIndexes() {
         if settings.windSpeed { windSpeedSegmentedController.selectedSegmentIndex = 0 } else { windSpeedSegmentedController.selectedSegmentIndex = 1 }
         
@@ -133,6 +169,8 @@ class SettingsVC:UIViewController {
                   precipitationSegmentedController.selectedSegmentIndex = 1
               }
     }
+       
+    
     func addSubViews() {
         self.view.addSubview(tempSegmentedController)
         self.view.addSubview(windSpeedSegmentedController)
@@ -140,6 +178,9 @@ class SettingsVC:UIViewController {
         self.view.addSubview(promptLabel)
 
 
+  
     }
-}
 
+
+
+}
