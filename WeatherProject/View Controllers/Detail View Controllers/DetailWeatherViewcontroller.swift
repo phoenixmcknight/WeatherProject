@@ -31,10 +31,11 @@ class DetailWeatherViewContrller:UIViewController {
     lazy  var cityImage:UIImageView = {
         let city = UIImageView()
         city.contentMode = .scaleAspectFit
+        city.isHidden = true
         return city
     }()
     
-    lazy var placeholderActivity:UIImageView = {
+    lazy var placeHolderImage:UIImageView = {
         
         let image = UIImageView()
         image.image = UIImage(named: "clear")
@@ -112,6 +113,7 @@ class DetailWeatherViewContrller:UIViewController {
         addSubViews()
         setUpLocationLabelConstraints()
         setUpImageViewConstraints()
+        setUpPlaceHolder()
         setUpSummaryLabel()
         setUpStackViewDetails()
         setUpSubViewsWithInformation()
@@ -124,13 +126,28 @@ class DetailWeatherViewContrller:UIViewController {
         self.navigationItem.rightBarButtonItem = barButton
         view.addSubview(locationLabel)
         view.addSubview(cityImage)
+        view.addSubview(placeHolderImage)
         view.addSubview(summaryLabel)
         view.addSubview(stackViewDetails)
     }
     
     
 //MARK: Functions - Constraints
-    
+    func setUpPlaceHolder() {
+        placeHolderImage.translatesAutoresizingMaskIntoConstraints = false
+        
+        placeHolderImage.centerYAnchor.constraint(equalTo: cityImage.centerYAnchor).isActive = true
+        placeHolderImage.centerXAnchor.constraint(equalTo: cityImage.centerXAnchor).isActive = true
+        placeHolderImage.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        placeHolderImage.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        UIView.animate(withDuration: 2.5, delay: 0.0, options: [.transitionFlipFromRight], animations: {
+            self.placeHolderImage.image = UIImage(named: "clearn")
+        }) { (_) in
+            UIView.animate(withDuration: 2.5, delay: 0.0, options: [.transitionFlipFromLeft], animations: {
+                self.placeHolderImage.image = UIImage(named:"clear")
+            }, completion: nil)
+        }
+    }
     func setUpLocationLabelConstraints() {
         locationLabel.translatesAutoresizingMaskIntoConstraints = false
         locationLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
@@ -176,9 +193,16 @@ class DetailWeatherViewContrller:UIViewController {
                     switch results {
                     case .failure(let error):
                         print(error)
+//                        self.cityImage.isHidden = false
+//                        self.placeHolderImage.isHidden = true
+//                        self.cityImage.image = UIImage(named: "imageLoadError-1")
+//                        self.cityImage.contentMode = .scaleAspectFit
+//                        self.barButton.isEnabled = true
                     //image picker here
                     case .success(let image):
                         self.cityImage.image = image
+                        self.cityImage.isHidden = false
+                        self.placeHolderImage.isHidden = true
                         self.barButton.isEnabled = true
                     }
                 }
@@ -187,6 +211,8 @@ class DetailWeatherViewContrller:UIViewController {
             cityImage.image = UIImage(named: "imageLoadError-1")
             cityImage.contentMode = .scaleAspectFit
             barButton.isEnabled = true
+            self.cityImage.isHidden = false
+            self.placeHolderImage.isHidden = true
         }
     }
     func setUpSubViewsWithInformation() {

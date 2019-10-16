@@ -18,6 +18,8 @@ class InitialWeatherViewController:UIViewController {
         didSet {
             
             self.weatherCollectionView.reloadData()
+           self.weatherCollectionView.isHidden = false
+            self.placeHolderImage.isHidden = true
         }
         
     }
@@ -42,6 +44,15 @@ class InitialWeatherViewController:UIViewController {
         label.textColor = .black
         return label
     }()
+    
+    lazy var placeHolderImage:UIImageView = {
+           
+           let image = UIImageView()
+           image.image = UIImage(named: "clearn")
+       
+           return image
+       }()
+    
     lazy var promptLabel:UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -65,6 +76,7 @@ class InitialWeatherViewController:UIViewController {
         colletionView.register(WeatherCollectionViewCell.self, forCellWithReuseIdentifier: "weather")
         colletionView.dataSource = self
         colletionView.delegate = self
+      //  colletionView.isHidden = true
         return colletionView
     }()
     
@@ -73,6 +85,7 @@ class InitialWeatherViewController:UIViewController {
         textfield.delegate = self
         textfield.placeholder = "Your Text Goes Here"
         textfield.textColor = .black
+        textfield.backgroundColor = .systemGray
         textfield.contentHorizontalAlignment = .center
         return textfield
         
@@ -80,19 +93,12 @@ class InitialWeatherViewController:UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         checkUserDefaults()
-        weatherTextField.becomeFirstResponder()
         settingsPersistenceHelper()
-        UIView.animate(withDuration: 0.0, delay: 0.8, options: [.curveEaseIn], animations: {
-            
-        }) { (_) in
-            UIView.animate(withDuration: 3.5, delay: 0.0, options: [.curveEaseOut], animations: {
-                self.view.backgroundColor = #colorLiteral(red: 0.3, green: 0.3, blue: 0.8, alpha: 1.0)
-                self.weatherCollectionView.backgroundColor = #colorLiteral(red: 0.3, green: 0.3, blue: 0.8, alpha: 1.0)
-               
-            }, completion: nil)
-        }
+        
     }
+  
     
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -100,14 +106,17 @@ class InitialWeatherViewController:UIViewController {
         createCityLabelConstraints()
         createCollectionViewOutletConstraints()
         createTextFieldConstraints()
+        weatherTextField.becomeFirstResponder()
         createPromptLabelConstraints()
+        setUpPlaceHolder()
+        animationAfterViewLoads()
+        placeHolderAnimation()
         
     }
     //MARK: Functions - Button Actions
     
     @objc func settingsButtonAction() {
         let settingsVC = SettingsVC()
-        // settingsVC.modalPresentationStyle = .currentContext
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     
@@ -124,11 +133,19 @@ class InitialWeatherViewController:UIViewController {
         cityLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
     }
-    
+    func setUpPlaceHolder() {
+           placeHolderImage.translatesAutoresizingMaskIntoConstraints = false
+           
+           placeHolderImage.centerYAnchor.constraint(equalTo: weatherCollectionView.centerYAnchor).isActive = true
+           placeHolderImage.centerXAnchor.constraint(equalTo: weatherCollectionView.centerXAnchor).isActive = true
+           placeHolderImage.heightAnchor.constraint(equalToConstant: 100).isActive = true
+           placeHolderImage.widthAnchor.constraint(equalToConstant: 100).isActive = true
+          
+       }
     func createCollectionViewOutletConstraints() {
         weatherCollectionView.translatesAutoresizingMaskIntoConstraints = false
         weatherCollectionView.topAnchor.constraint(equalTo: cityLabel.bottomAnchor).isActive = true
-        weatherCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,constant: -500).isActive = true
+        weatherCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         weatherCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     
@@ -141,7 +158,6 @@ class InitialWeatherViewController:UIViewController {
         weatherTextField.heightAnchor.constraint(equalToConstant: 50).isActive = true
         weatherTextField.widthAnchor.constraint(equalToConstant: 175).isActive = true
         
-        weatherTextField.becomeFirstResponder()
     }
     func createPromptLabelConstraints() {
         promptLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -163,12 +179,35 @@ class InitialWeatherViewController:UIViewController {
             })
         }
     }
+    //MARK:Functions - Animations
+  
+    func animationAfterViewLoads() {
+           UIView.animate(withDuration: 0.0, delay: 0.8, options: [.curveEaseIn], animations: {
+
+           }) { (_) in
+               UIView.animate(withDuration: 3.5, delay: 0.0, options: [.curveEaseOut], animations: {
+                          self.view.backgroundColor = #colorLiteral(red: 0.3, green: 0.3, blue: 0.8, alpha: 1.0)
+                          self.weatherCollectionView.backgroundColor = #colorLiteral(red: 0.3, green: 0.3, blue: 0.8, alpha: 1.0)
+                         
+                      }, completion: nil)
+       }
+       
+       }
+    
+    func placeHolderAnimation() {
+        UIView.animate(withDuration: 5, delay: 5.0, options: [.transitionFlipFromRight], animations: {
+               self.placeHolderImage.image = UIImage(named: "clear")
+           },completion: nil)
+               
+       }
+    
     //MARK: Functions - Miscellaneous
     
     func addSubViews() {
            self.navigationItem.rightBarButtonItem = settingsButton
            view.addSubview(cityLabel)
            view.addSubview(weatherCollectionView)
+        view.addSubview(placeHolderImage)
            view.addSubview(weatherTextField)
            view.addSubview(promptLabel)
        }
@@ -200,7 +239,6 @@ class InitialWeatherViewController:UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let data):
-                
                 self.weatherData = data
             }
         }
@@ -270,6 +308,6 @@ extension InitialWeatherViewController: UICollectionViewDataSource,UICollectionV
         detailVC.detailVCSettings = settings
         detailVC.cityName = cityName
         self.navigationController?.pushViewController(detailVC, animated: false)
-        UIView.transition(from: self.view, to: detailVC.view, duration: 3.5, options: [.transitionCurlUp],completion: nil)
+        UIView.transition(from: self.view, to: detailVC.view, duration: 2.5, options: [.transitionCurlUp],completion: nil)
     }
 }
