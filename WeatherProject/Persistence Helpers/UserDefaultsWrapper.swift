@@ -14,9 +14,7 @@ struct UserDefaultsWrapper {
     static let shared = UserDefaultsWrapper()
     
     private let zipCode = "zipcode"
-    
-    private let settingsMenu = "settings"
-    
+        
     func store(zipCodeString:String) {
         UserDefaults.standard.set(zipCodeString, forKey: zipCode)
     }

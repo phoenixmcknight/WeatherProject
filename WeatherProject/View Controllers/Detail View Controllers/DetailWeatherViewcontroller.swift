@@ -118,8 +118,10 @@ class DetailWeatherViewContrller:UIViewController {
         setUpStackViewDetails()
         setUpSubViewsWithInformation()
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        placeHolderAnimation()
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
            super.viewWillDisappear(true)
@@ -145,10 +147,7 @@ class DetailWeatherViewContrller:UIViewController {
         placeHolderImage.centerXAnchor.constraint(equalTo: cityImage.centerXAnchor).isActive = true
         placeHolderImage.heightAnchor.constraint(equalToConstant: 150).isActive = true
         placeHolderImage.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        UIView.animate(withDuration: 2.5, delay: 0.0, options: [.transitionFlipFromRight], animations: {
-            self.placeHolderImage.image = UIImage(named: "clear")
-        },completion: nil)
-            
+       
         
     }
  private   func setUpLocationLabelConstraints() {
@@ -271,8 +270,15 @@ class DetailWeatherViewContrller:UIViewController {
     }
 //MARK: Functions - Animations
  private   func animate() {
-        UIView.transition(from: self.view, to: InitialWeatherViewController().view, duration: 1.5, options: [.transitionCrossDissolve], completion: nil)
+        UIView.transition(from: self.view, to: InitialWeatherViewController().view, duration: 1.5, options: [.transitionCurlDown], completion: nil)
     }
+    private  func placeHolderAnimation() {
+
+        UIView.transition(with: self.placeHolderImage, duration: 2.5, options: [.transitionCrossDissolve], animations: {
+            self.placeHolderImage.image = UIImage(named: "clear")
+       }, completion: nil)
+                  
+          }
 }
 //MARK: Extensions
 

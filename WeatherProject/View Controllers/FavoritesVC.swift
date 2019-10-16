@@ -34,6 +34,8 @@ class FavoritesVC:UIViewController {
                tableViewConstraints()
                loadData()
     }
+    
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
        dismiss(animated: true, completion: nil)

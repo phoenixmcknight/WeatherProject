@@ -25,7 +25,7 @@ struct PersistenceHelper<T: Codable> {
     
     func save(newElement: T) throws {
         var elements = try getObjects()
-        elements = []
+        //elements = []
         elements.append(newElement)
         let serializedData = try PropertyListEncoder().encode(elements)
         try serializedData.write(to: url, options: Data.WritingOptions.atomic)

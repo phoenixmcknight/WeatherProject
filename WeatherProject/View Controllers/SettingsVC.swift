@@ -62,6 +62,22 @@ class SettingsVC:UIViewController {
         return segment
     }()
     
+    override func viewDidLoad() {
+           super.viewDidLoad()
+           view.backgroundColor = .white
+           checkPersistenceHelper()
+           addSubViews()
+           setUpSegmentIndexes()
+          // navigationItem.hidesBackButton = true
+           //navigationController?
+       }
+       override func viewWillDisappear(_ animated: Bool) {
+           super.viewWillDisappear(true)
+           try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+         // animate()
+           
+       }
+    
     //MARK: Functions - Segmented Controller Actions
     
     @objc func changeTemperatureMeasurement(sender:UISegmentedControl) {
@@ -85,12 +101,10 @@ class SettingsVC:UIViewController {
             settings.windSpeed = true
             segmentAnimations()
             changeBackgroundColor()
-            
         case 1:
             settings.windSpeed = false
             segmentAnimations()
             changeBackgroundColor()
-            
         default:
             print("error")
         }
@@ -112,30 +126,14 @@ class SettingsVC:UIViewController {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        checkPersistenceHelper()
-        addSubViews()
-        setUpSegmentIndexes()
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        try? SettingsPersistenceHelper.shared.save(newSetting: settings)
-        animate()
-    }
-     
-    
-   
     //MARK: Functions - Animations
     private func segmentAnimations() {
         
         UIView.animate(withDuration: 1.5, delay: 0.0, options: [.curveEaseOut], animations: changeSegmentedIndex, completion: nil)
     }
     
-  private  func animate() {
-        UIView.transition(from: self.view, to: InitialWeatherViewController().view, duration: 1.5, options: [.transitionCrossDissolve], completion: nil)
-        
+    @objc private  func animate() {
+    UIView.transition(from: SettingsVC().view, to: InitialWeatherViewController().view, duration: 10, options: [.transitionFlipFromTop], completion: nil)
     }
     
   private  func changeSegmentedIndex() {
@@ -174,6 +172,8 @@ class SettingsVC:UIViewController {
                settings = defaultSettings
            }
        }
+    
+    
     func addSubViews() {
         self.view.addSubview(tempSegmentedController)
         self.view.addSubview(windSpeedSegmentedController)

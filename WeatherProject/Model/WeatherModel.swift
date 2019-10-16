@@ -13,6 +13,15 @@ struct WeatherModel: Codable {
     let timezone: String
     let daily: Daily
     
+    static func getWeatherDataTest(from data:Data) -> [DailyDatum]? {
+           do {
+               let newWeather = try JSONDecoder().decode(WeatherModel.self, from: data)
+               return newWeather.daily.data
+           } catch let error {
+               print(error)
+               return nil
+           }
+       }
     
 }
 
@@ -143,9 +152,7 @@ struct DailyDatum: Codable {
         return formatter.string(from: date)
     }
     
-    func getWeatherDataTest() {
-        
-    }
+   
 }
 
 

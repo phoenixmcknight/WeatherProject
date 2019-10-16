@@ -12,7 +12,7 @@ struct SettingsPersistenceHelper {
     static let shared = SettingsPersistenceHelper()
     
     func save(newSetting: Settings) throws {
-       try persistenceHelper.save(newElement: newSetting)
+       try persistenceHelper.save2(newElement: newSetting)
    }
     
     
