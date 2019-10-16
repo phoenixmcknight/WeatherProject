@@ -90,7 +90,7 @@ class DetailWeatherViewContrller:UIViewController {
          return stacky
      }()
      
-     lazy var barButton:UIBarButtonItem = {
+     lazy var saveBarButton:UIBarButtonItem = {
          let bar = UIBarButtonItem(title: "Save", style: UIBarButtonItem.Style.plain, target: self, action: #selector(saveButton))
          bar.isEnabled = false
          return bar
@@ -130,7 +130,7 @@ class DetailWeatherViewContrller:UIViewController {
     
     //MARK: Functions
  private func addSubViews() {
-        self.navigationItem.rightBarButtonItem = barButton
+        self.navigationItem.rightBarButtonItem = saveBarButton
         view.addSubview(locationLabel)
         view.addSubview(cityImage)
         view.addSubview(placeHolderImage)
@@ -200,14 +200,14 @@ class DetailWeatherViewContrller:UIViewController {
                         self.cityImage.image = image
                         self.cityImage.isHidden = false
                         self.placeHolderImage.isHidden = true
-                        self.barButton.isEnabled = true
+                        self.saveBarButton.isEnabled = true
                     }
                 }
             }
         } else {
             cityImage.image = UIImage(named: "imageLoadError-1")
             cityImage.contentMode = .scaleAspectFit
-            barButton.isEnabled = true
+            saveBarButton.isEnabled = true
             self.cityImage.isHidden = false
             self.placeHolderImage.isHidden = true
         }

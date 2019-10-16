@@ -62,19 +62,19 @@ class SettingsVC:UIViewController {
         return segment
     }()
     
+    
+    
     override func viewDidLoad() {
            super.viewDidLoad()
            view.backgroundColor = .white
            checkPersistenceHelper()
            addSubViews()
            setUpSegmentIndexes()
-          // navigationItem.hidesBackButton = true
-           //navigationController?
        }
        override func viewWillDisappear(_ animated: Bool) {
            super.viewWillDisappear(true)
            try? SettingsPersistenceHelper.shared.save(newSetting: settings)
-         // animate()
+         
            
        }
     
@@ -132,9 +132,7 @@ class SettingsVC:UIViewController {
         UIView.animate(withDuration: 1.5, delay: 0.0, options: [.curveEaseOut], animations: changeSegmentedIndex, completion: nil)
     }
     
-    @objc private  func animate() {
-    UIView.transition(from: SettingsVC().view, to: InitialWeatherViewController().view, duration: 10, options: [.transitionFlipFromTop], completion: nil)
-    }
+   
     
   private  func changeSegmentedIndex() {
         let frame = UIScreen.main.bounds
