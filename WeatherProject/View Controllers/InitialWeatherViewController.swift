@@ -117,7 +117,8 @@ class InitialWeatherViewController:UIViewController {
     
     @objc func settingsButtonAction() {
         let settingsVC = SettingsVC()
-        navigationController?.pushViewController(settingsVC, animated: true)
+        navigationController?.pushViewController(settingsVC, animated: false)
+        UIView.transition(from: self.view, to: settingsVC.view, duration: 1.5, options: [.transitionFlipFromBottom], completion: nil)
     }
     
     

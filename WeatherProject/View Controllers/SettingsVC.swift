@@ -122,26 +122,20 @@ class SettingsVC:UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         try? SettingsPersistenceHelper.shared.save(newSetting: settings)
+        animate()
     }
+     
     
-    //MARK: Functions - Miscellaneous
-    
-    func changeBackgroundColor() {
-        rgbColor = RGBValue()
-        self.view.backgroundColor = rgbColor.createRGBColor()
-    }
-    
-    func checkPersistenceHelper() {
-        if let savedSettings = try? SettingsPersistenceHelper.shared.getSettings() {
-            settings = savedSettings
-        } else {
-            let defaultSettings = Settings(windSpeed: true, temperature: true, precipitation: true)
-            settings = defaultSettings
-        }
-    }
+   
+    //MARK: Functions - Animations
     func segmentAnimations() {
         
         UIView.animate(withDuration: 1.5, delay: 0.0, options: [.curveEaseOut], animations: changeSegmentedIndex, completion: nil)
+    }
+    
+    func animate() {
+        UIView.transition(from: self.view, to: InitialWeatherViewController().view, duration: 1.5, options: [.transitionCrossDissolve], completion: nil)
+        
     }
     
     func changeSegmentedIndex() {
@@ -165,6 +159,21 @@ class SettingsVC:UIViewController {
             }
         }
     }
+    //MARK: Functions - Miscellaneous
+       
+       func changeBackgroundColor() {
+           rgbColor = RGBValue()
+           self.view.backgroundColor = rgbColor.createRGBColor()
+       }
+       
+       func checkPersistenceHelper() {
+           if let savedSettings = try? SettingsPersistenceHelper.shared.getSettings() {
+               settings = savedSettings
+           } else {
+               let defaultSettings = Settings(windSpeed: true, temperature: true, precipitation: true)
+               settings = defaultSettings
+           }
+       }
     func addSubViews() {
         self.view.addSubview(tempSegmentedController)
         self.view.addSubview(windSpeedSegmentedController)
