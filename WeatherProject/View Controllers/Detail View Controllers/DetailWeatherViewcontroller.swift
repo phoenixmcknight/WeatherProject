@@ -270,7 +270,7 @@ class DetailWeatherViewContrller:UIViewController {
     }
 //MARK: Functions - Animations
  private   func animate() {
-        UIView.transition(from: self.view, to: InitialWeatherViewController().view, duration: 1.5, options: [.transitionCurlDown], completion: nil)
+        UIView.transition(from: DetailWeatherViewContrller().view, to: InitialWeatherViewController().view, duration: 1.5, options: [.transitionCurlDown], completion: nil)
     }
     private  func placeHolderAnimation() {
 
