@@ -45,7 +45,7 @@ class FavoritesVC:UIViewController {
     
     //MARK: Functions - Constraints
     
-    func tableViewConstraints() {
+   private func tableViewConstraints() {
         self.view.addSubview(favoritesTableView)
         self.favoritesTableView.translatesAutoresizingMaskIntoConstraints = false
                   self.favoritesTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
@@ -54,7 +54,7 @@ class FavoritesVC:UIViewController {
                   self.favoritesTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
                 }
    //MARK: Functions - Miscellaneous
-    func loadData() {
+   private func loadData() {
         try? favorites = ImagePersistenceHelper.manager.getPhoto()
            if favorites.count == 0 {
                checkIfAnythingHasBeenFavorited()
@@ -64,7 +64,7 @@ class FavoritesVC:UIViewController {
            }
        }
     
-    func introPopUpAlert() {
+  private func introPopUpAlert() {
         let alert = UIAlertController(title: "Favorites List", message: "Click Photo To Remove", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
         alert.addAction(cancel)
@@ -125,7 +125,7 @@ extension FavoritesVC:CellDelegate {
          
     }
     
-    func checkIfAnythingHasBeenFavorited() {
+   private func checkIfAnythingHasBeenFavorited() {
         let alert = UIAlertController(title: "You cannot access this page", message: "Please favorite a photo to access the Favorites tab", preferredStyle: .alert)
         let dismissAlert = UIAlertAction(title: "Dismiss", style: .cancel) { (action) in
             self.tabBarController?.selectedIndex = 0

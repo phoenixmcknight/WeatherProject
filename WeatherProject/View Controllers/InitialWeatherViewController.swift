@@ -110,8 +110,12 @@ class InitialWeatherViewController:UIViewController {
         createPromptLabelConstraints()
         setUpPlaceHolder()
         animationAfterViewLoads()
-        placeHolderAnimation()
+        //placeHolderAnimation()
         
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        placeHolderAnimation()
     }
     //MARK: Functions - Button Actions
     
@@ -125,7 +129,7 @@ class InitialWeatherViewController:UIViewController {
    
     //MARK: Functions - Constraints
     
-    func createCityLabelConstraints() {
+  private  func createCityLabelConstraints() {
         
         cityLabel.translatesAutoresizingMaskIntoConstraints = false
         cityLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 150).isActive = true
@@ -134,7 +138,7 @@ class InitialWeatherViewController:UIViewController {
         cityLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
     }
-    func setUpPlaceHolder() {
+  private  func setUpPlaceHolder() {
            placeHolderImage.translatesAutoresizingMaskIntoConstraints = false
            
            placeHolderImage.centerYAnchor.constraint(equalTo: weatherCollectionView.centerYAnchor).isActive = true
@@ -143,14 +147,14 @@ class InitialWeatherViewController:UIViewController {
            placeHolderImage.widthAnchor.constraint(equalToConstant: 100).isActive = true
           
        }
-    func createCollectionViewOutletConstraints() {
+  private  func createCollectionViewOutletConstraints() {
         weatherCollectionView.translatesAutoresizingMaskIntoConstraints = false
         weatherCollectionView.topAnchor.constraint(equalTo: cityLabel.bottomAnchor).isActive = true
         weatherCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         weatherCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     
-    func createTextFieldConstraints() {
+ private   func createTextFieldConstraints() {
         
         weatherTextField.textColor = .black
         weatherTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -160,7 +164,7 @@ class InitialWeatherViewController:UIViewController {
         weatherTextField.widthAnchor.constraint(equalToConstant: 175).isActive = true
         
     }
-    func createPromptLabelConstraints() {
+ private   func createPromptLabelConstraints() {
         promptLabel.translatesAutoresizingMaskIntoConstraints = false
         promptLabel.topAnchor.constraint(equalTo: weatherTextField.bottomAnchor, constant: 5).isActive = true
         
@@ -182,7 +186,7 @@ class InitialWeatherViewController:UIViewController {
     }
     //MARK:Functions - Animations
   
-    func animationAfterViewLoads() {
+  private  func animationAfterViewLoads() {
            UIView.animate(withDuration: 0.0, delay: 0.8, options: [.curveEaseIn], animations: {
 
            }) { (_) in
@@ -195,16 +199,17 @@ class InitialWeatherViewController:UIViewController {
        
        }
     
-    func placeHolderAnimation() {
-        UIView.animate(withDuration: 5, delay: 5.0, options: [.transitionFlipFromRight], animations: {
-               self.placeHolderImage.image = UIImage(named: "clear")
-           },completion: nil)
+  private  func placeHolderAnimation() {
+
+    UIView.transition(with: self.placeHolderImage, duration: 5, options: [.transitionCrossDissolve], animations: {
+         self.placeHolderImage.image = UIImage(named: "clear")
+    }, completion: nil)
                
        }
     
     //MARK: Functions - Miscellaneous
     
-    func addSubViews() {
+ private   func addSubViews() {
            self.navigationItem.rightBarButtonItem = settingsButton
            view.addSubview(cityLabel)
            view.addSubview(weatherCollectionView)
@@ -213,7 +218,7 @@ class InitialWeatherViewController:UIViewController {
            view.addSubview(promptLabel)
        }
     
-    func checkUserDefaults() {
+ private   func checkUserDefaults() {
         if UserDefaultsWrapper.shared.getZipCode() != nil {
             
             textString = UserDefaultsWrapper.shared.getZipCode()!
@@ -224,7 +229,7 @@ class InitialWeatherViewController:UIViewController {
             weatherTextField.text = UserDefaultsWrapper.shared.getZipCode()
         }
     }
-    func settingsPersistenceHelper() {
+ private   func settingsPersistenceHelper() {
         if let savedSettings = try? SettingsPersistenceHelper.shared.getSettings() {
             settings = savedSettings
         } else {
@@ -240,6 +245,7 @@ class InitialWeatherViewController:UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let data):
+                sleep(10)
                 self.weatherData = data
             }
         }
@@ -258,7 +264,7 @@ extension InitialWeatherViewController: UITextFieldDelegate {
         
         return true
     }
-    func zipCodeHelper() {
+  private  func zipCodeHelper() {
         ZipCodeHelper.getLatLong(fromZipCode: textString) {
             (results) in
             switch results {
@@ -274,7 +280,7 @@ extension InitialWeatherViewController: UITextFieldDelegate {
             }
         }
     }
-    func alert() {
+ private   func alert() {
         let alert =  UIAlertController(title: "Error", message: "Invalid ZIP Code or City", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel){ (actions) in self.weatherTextField.text = ""
         }

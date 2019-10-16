@@ -127,7 +127,7 @@ class DetailWeatherViewContrller:UIViewController {
        }
     
     //MARK: Functions
-    func addSubViews() {
+ private func addSubViews() {
         self.navigationItem.rightBarButtonItem = barButton
         view.addSubview(locationLabel)
         view.addSubview(cityImage)
@@ -138,7 +138,7 @@ class DetailWeatherViewContrller:UIViewController {
     
     
 //MARK: Functions - Constraints
-    func setUpPlaceHolder() {
+ private   func setUpPlaceHolder() {
         placeHolderImage.translatesAutoresizingMaskIntoConstraints = false
         
         placeHolderImage.centerYAnchor.constraint(equalTo: cityImage.centerYAnchor).isActive = true
@@ -151,7 +151,7 @@ class DetailWeatherViewContrller:UIViewController {
             
         
     }
-    func setUpLocationLabelConstraints() {
+ private   func setUpLocationLabelConstraints() {
         locationLabel.translatesAutoresizingMaskIntoConstraints = false
         locationLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
         locationLabel.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
@@ -159,7 +159,7 @@ class DetailWeatherViewContrller:UIViewController {
         locationLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     
-    func setUpImageViewConstraints() {
+ private   func setUpImageViewConstraints() {
         cityImage.translatesAutoresizingMaskIntoConstraints = false
         
         cityImage.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 20).isActive = true
@@ -167,7 +167,7 @@ class DetailWeatherViewContrller:UIViewController {
         
         cityImage.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
-    func setUpSummaryLabel() {
+  private  func setUpSummaryLabel() {
         summaryLabel.translatesAutoresizingMaskIntoConstraints = false
         
         summaryLabel.topAnchor.constraint(equalTo: cityImage.bottomAnchor, constant: 5).isActive = true
@@ -177,7 +177,7 @@ class DetailWeatherViewContrller:UIViewController {
         summaryLabel.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     
-    func setUpStackViewDetails() {
+ private   func setUpStackViewDetails() {
         stackViewDetails.translatesAutoresizingMaskIntoConstraints = false
         
         stackViewDetails.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: 10).isActive = true
@@ -189,7 +189,7 @@ class DetailWeatherViewContrller:UIViewController {
     
 //MARK: Functions - Change Outlets
     
-    func setImage() {
+  private  func setImage() {
         if let image = pictureData.randomElement()?.largeImageURL {
             ImageHelper.shared.getImage(urlStr: image) { (results) in
                 DispatchQueue.main.async {
@@ -213,7 +213,7 @@ class DetailWeatherViewContrller:UIViewController {
             self.placeHolderImage.isHidden = true
         }
     }
-    func setUpSubViewsWithInformation() {
+ private   func setUpSubViewsWithInformation() {
         let rawDate = passingDailyData.time
         let formattedDate = passingDailyData.getDateFromTime(time: rawDate)
         let sunrise = passingDailyData.getSpecificTimeFromTime(time: passingDailyData.sunriseTime)
@@ -249,7 +249,7 @@ class DetailWeatherViewContrller:UIViewController {
 //MARK: Miscellaneous functions
     
     
-    func saveAlert() {
+   private func saveAlert() {
         let alert = UIAlertController(title: "Saved", message: "Click on the 'favorites' tag to see your saved images", preferredStyle: .alert)
         let ok = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alert.addAction(ok)
@@ -270,7 +270,7 @@ class DetailWeatherViewContrller:UIViewController {
         }
     }
 //MARK: Functions - Animations
-    func animate() {
+ private   func animate() {
         UIView.transition(from: self.view, to: InitialWeatherViewController().view, duration: 1.5, options: [.transitionCrossDissolve], completion: nil)
     }
 }

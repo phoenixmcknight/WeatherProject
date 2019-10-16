@@ -16,8 +16,6 @@ struct WeatherModel: Codable {
     
 }
 
-
-
 enum Icon: String, Codable {
     case cloudy = "cloudy"
     case partlyCloudyNight = "partly-cloudy-night"
@@ -45,9 +43,9 @@ struct DailyDatum: Codable {
     let temperatureMinTime: Int
     let temperatureMax: Double
     let temperatureMaxTime: Int
-    
+ //MARK:Functions
     func getDateFromTime(time:Int) -> String {
-
+        
         let date = NSDate(timeIntervalSince1970: TimeInterval(time))
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = DateFormatter.Style.medium //Set time style
@@ -58,7 +56,7 @@ struct DailyDatum: Codable {
     }
     
     func getSpecificTimeFromTime(time:Int) -> String {
-
+        
         let date = NSDate(timeIntervalSince1970: TimeInterval(time))
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = DateFormatter.Style.medium //Set time style
@@ -67,31 +65,29 @@ struct DailyDatum: Codable {
         
         return testDate.components(separatedBy: " at")[1]
     }
-
+    
     
     func returnHighTemperature(temp:Double, usingImperialMeasurement:Bool) -> String {
         
         switch usingImperialMeasurement {
         case false :
             return "High: \(((temp - 32) * 5/9).rounds(toPlaces: 2))°C"
-        
+            
         case true :
-        
-        return "High: \(temp)°F"
-    }
+            
+            return "High: \(temp)°F"
+        }
     }
     func returnLowTemperature(temp:Double,usingInternationalMeasurements:Bool) -> String {
         
         switch usingInternationalMeasurements {
             
         case true:
-        return "Low: \(temp)°F"
+            return "Low: \(temp)°F"
         case false:
             return "Low: \(((temp - 32) * 5/9).rounds(toPlaces: 2))°C"
+        }
     }
-    }
-    
-  
     
     func returnPrecipitationMeasurement(inches:Double,usingImperialMeasurement:Bool) -> String {
         switch usingImperialMeasurement {
@@ -99,17 +95,17 @@ struct DailyDatum: Codable {
             return "Meters Of Precipitation: \((inches * 2.54).rounds(toPlaces: 2))"
         case true:
             return "Inches Of Precipitation: \(inches.rounded())"
-        
-    }
+            
+        }
     }
     
-        func returnWindSpeed(MPH:Double,usingImperialMeasurement:Bool) -> String {
-            switch usingImperialMeasurement {
-            case false :
-                return "Windspeed: \((MPH * 1.609).rounds(toPlaces: 2)) KM/H"
-            case true :
-                return "Windspeed: \(MPH) MPH"
-    }
+    func returnWindSpeed(MPH:Double,usingImperialMeasurement:Bool) -> String {
+        switch usingImperialMeasurement {
+        case false :
+            return "Windspeed: \((MPH * 1.609).rounds(toPlaces: 2)) KM/H"
+        case true :
+            return "Windspeed: \(MPH) MPH"
+        }
     }
     
     func returnPictureBasedOnIcon(icon:String) -> UIImage {
@@ -141,11 +137,15 @@ struct DailyDatum: Codable {
         }
     }
     func currentDate()->String{
-           let date = Date()
-           let formatter = DateFormatter()
-           formatter.dateFormat = "MM/dd/yyyy HH:mm:ss"
-           return formatter.string(from: date)
-       }
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy HH:mm:ss"
+        return formatter.string(from: date)
+    }
+    
+    func getWeatherDataTest() {
+        
+    }
 }
-// clear-night, rain, snow, sleet, wind, fog, cloudy, partly-cloudy-day, or partly-cloudy-night. (Developers should ensure that a sensible default is defined, as additional values, such as hail, thunderstorm, or tornado,
+
 

@@ -11,4 +11,5 @@ import Foundation
 struct FavoriteImages:Codable {
     let image:Data
     let date:String
+
 }

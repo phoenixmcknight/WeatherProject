@@ -128,17 +128,17 @@ class SettingsVC:UIViewController {
     
    
     //MARK: Functions - Animations
-    func segmentAnimations() {
+    private func segmentAnimations() {
         
         UIView.animate(withDuration: 1.5, delay: 0.0, options: [.curveEaseOut], animations: changeSegmentedIndex, completion: nil)
     }
     
-    func animate() {
+  private  func animate() {
         UIView.transition(from: self.view, to: InitialWeatherViewController().view, duration: 1.5, options: [.transitionCrossDissolve], completion: nil)
         
     }
     
-    func changeSegmentedIndex() {
+  private  func changeSegmentedIndex() {
         let frame = UIScreen.main.bounds
         let first = CGRect(x: frame.minX + 10, y: frame.maxY * 0.2, width: frame.width - 10, height: frame.maxY * 0.1)
         let second = CGRect(x: frame.minX + 10, y: frame.maxY * 0.4, width: frame.width - 10, height: frame.maxY * 0.1)
@@ -161,12 +161,12 @@ class SettingsVC:UIViewController {
     }
     //MARK: Functions - Miscellaneous
        
-       func changeBackgroundColor() {
+   private    func changeBackgroundColor() {
            rgbColor = RGBValue()
            self.view.backgroundColor = rgbColor.createRGBColor()
        }
        
-       func checkPersistenceHelper() {
+   private    func checkPersistenceHelper() {
            if let savedSettings = try? SettingsPersistenceHelper.shared.getSettings() {
                settings = savedSettings
            } else {
