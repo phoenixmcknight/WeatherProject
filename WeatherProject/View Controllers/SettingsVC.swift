@@ -87,10 +87,12 @@ class SettingsVC:UIViewController {
             segmentAnimations()
             settings.temperature = true
             changeBackgroundColor()
+            print(settings)
         case 1:
             segmentAnimations()
             settings.temperature = false
             changeBackgroundColor()
+            print(settings)
         default:
             print("error")
         }
@@ -115,11 +117,12 @@ class SettingsVC:UIViewController {
             settings.precipitation = true
             segmentAnimations()
             changeBackgroundColor()
-            
+            print(settings)
         case 1:
             settings.precipitation = false
             segmentAnimations()
             changeBackgroundColor()
+            print(settings)
             
         default:
             print("error")

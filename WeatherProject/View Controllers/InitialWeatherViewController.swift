@@ -130,7 +130,7 @@ class InitialWeatherViewController:UIViewController {
     @objc func settingsButtonAction() {
         let settingsVC = SettingsVC()
         navigationController?.pushViewController(settingsVC, animated: false)
-        UIView.transition(from: self.view, to: settingsVC.view, duration: 1.5, options: [.transitionFlipFromBottom], completion: nil)
+        UIView.transition(from: InitialWeatherViewController().view, to: settingsVC.view, duration: 1.5, options: [.transitionFlipFromBottom], completion: nil)
     }
     
     
@@ -325,6 +325,6 @@ extension InitialWeatherViewController: UICollectionViewDataSource,UICollectionV
         detailVC.detailVCSettings = settings
         detailVC.cityName = cityName
         self.navigationController?.pushViewController(detailVC, animated: false)
-        UIView.transition(from: self.view, to: detailVC.view, duration: 1.5, options: [.transitionCurlUp],completion: nil)
+        UIView.transition(from: InitialWeatherViewController().view, to: detailVC.view, duration: 1.5, options: [.transitionCurlUp],completion: nil)
     }
 }
