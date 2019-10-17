@@ -11,19 +11,23 @@ import UIKit
 
 class InitialWeatherViewController:UIViewController {
     //MARK: Instances of Structs
-   
+   var animationRunning = false
     var settings:Settings! {
         didSet {
+           
             weatherCollectionView.reloadData()
+            
         }
     }
     
     var weatherData = [DailyDatum]() {
         didSet {
-            
+            if animationRunning == true {
+            sleep(4)
             self.weatherCollectionView.reloadData()
            self.weatherCollectionView.isHidden = false
             self.placeHolderImage.isHidden = true
+            }
         }
         
     }
@@ -31,7 +35,11 @@ class InitialWeatherViewController:UIViewController {
      var layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
     var textString:String = "" {
         didSet {
-            loadData()
+            
+                loadData()
+            
+            
+            
         }
     }
     var cityName = "" {
@@ -45,6 +53,8 @@ class InitialWeatherViewController:UIViewController {
     lazy var cityLabel:UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.font = label.font.withSize(20)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .black
         return label
     }()
@@ -89,7 +99,8 @@ class InitialWeatherViewController:UIViewController {
         textfield.delegate = self
         textfield.placeholder = "Your Text Goes Here"
         textfield.textColor = .black
-        textfield.backgroundColor = .systemGray
+        textfield.borderStyle = .roundedRect
+        textfield.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         textfield.contentHorizontalAlignment = .center
         return textfield
         
@@ -106,31 +117,39 @@ class InitialWeatherViewController:UIViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        addSubViews()
-        createCityLabelConstraints()
-        createCollectionViewOutletConstraints()
-        createTextFieldConstraints()
-        weatherTextField.becomeFirstResponder()
-        createPromptLabelConstraints()
-        setUpPlaceHolder()
-        self.view.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        DispatchQueue.main.async {
+            self.addSubViews()
+                   self.createCityLabelConstraints()
+                   self.createCollectionViewOutletConstraints()
+                   self.createTextFieldConstraints()
+                   self.weatherTextField.becomeFirstResponder()
+                   self.createPromptLabelConstraints()
+                   self.setUpPlaceHolder()
+                   self.view.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        }
+       
         
         //placeHolderAnimation()
         
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-       animationAfterViewLoads()
-
-        placeHolderAnimation()
+        
+            self.animationAfterViewLoads()
+            self.placeHolderAnimation()
+        
+            
+        
+        
+        
     }
+    
     //MARK: Functions - Button Actions
     
     @objc func settingsButtonAction() {
         let settingsVC = SettingsVC()
         navigationController?.pushViewController(settingsVC, animated: false)
-        UIView.transition(from: InitialWeatherViewController().view, to: settingsVC.view, duration: 1.5, options: [.transitionFlipFromBottom], completion: nil)
+        UIView.transition(from: self.view, to: settingsVC.view, duration: 1.0, options: [.transitionFlipFromBottom], completion: nil)
     }
     
     
@@ -186,7 +205,7 @@ class InitialWeatherViewController:UIViewController {
             xAnchor.isActive = false
             xAnchor = self.promptLabel.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor)
             xAnchor.isActive = true
-            UIView.animate(withDuration: 3, delay: 0.8, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.5, options: .curveEaseIn,animations: {
+            UIView.animate(withDuration: 3, delay: 1.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.5, options: .curveEaseIn,animations: {
                 self.view.layoutIfNeeded()
                 self.promptLabel.alpha = 1.0
             })
@@ -198,9 +217,9 @@ class InitialWeatherViewController:UIViewController {
            UIView.animate(withDuration: 0.0, delay: 0.0, options: [.curveEaseIn], animations: {
 
            }) { (_) in
-               UIView.animate(withDuration: 3.5, delay: 0.0, options: [.curveEaseOut], animations: {
-                          self.view.backgroundColor = #colorLiteral(red: 0.3, green: 0.3, blue: 0.8, alpha: 1.0)
-                          self.weatherCollectionView.backgroundColor = #colorLiteral(red: 0.3, green: 0.3, blue: 0.8, alpha: 1.0)
+            UIView.animate(withDuration: 4.0, delay: 0.0, options: [.curveEaseOut], animations: {
+                          self.view.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
+                          self.weatherCollectionView.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
                          
             }) { (_) in
                 self.weatherCollectionView.reloadData()
@@ -211,11 +230,15 @@ class InitialWeatherViewController:UIViewController {
     
   private  func placeHolderAnimation() {
 
-    UIView.transition(with: self.placeHolderImage, duration: 3.5, options: [.transitionCrossDissolve], animations: {
+    UIView.transition(with: self.placeHolderImage, duration: 4.0, options: [.transitionCrossDissolve], animations: {
+        self.animationRunning = true
          self.placeHolderImage.image = UIImage(named: "clear")
-    }, completion: nil)
-               
+    }, completion: { (_) in
+        self.animationRunning = false
+    })
+   
        }
+    
     
     //MARK: Functions - Miscellaneous
     
@@ -255,7 +278,6 @@ class InitialWeatherViewController:UIViewController {
             case .failure(let error):
                 print(error)
             case .success(let data):
-                sleep(3)
                 self.weatherData = data
             }
         }
@@ -306,7 +328,7 @@ extension InitialWeatherViewController: UICollectionViewDataSource,UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let weather = weatherData[indexPath.row]
         let cell = weatherCollectionView.dequeueReusableCell(withReuseIdentifier: "weather", for: indexPath) as! WeatherCollectionViewCell
-        
+        cell.backgroundColor = #colorLiteral(red: 0.9330009818, green: 0.9096471667, blue: 0.8983025551, alpha: 1)
         cell.dateLabel.text = weather.getDateFromTime(time: weather.time)
         cell.highTempLabel.text = weather.returnHighTemperature(temp: weather.temperatureHigh, usingImperialMeasurement: settings.temperature)
         cell.lowTempLabel.text = weather.returnLowTemperature(temp: weather.temperatureLow, usingInternationalMeasurements: settings.temperature)
@@ -325,6 +347,6 @@ extension InitialWeatherViewController: UICollectionViewDataSource,UICollectionV
         detailVC.detailVCSettings = settings
         detailVC.cityName = cityName
         self.navigationController?.pushViewController(detailVC, animated: false)
-        UIView.transition(from: InitialWeatherViewController().view, to: detailVC.view, duration: 1.5, options: [.transitionCurlUp],completion: nil)
+        UIView.transition(from: self.view, to: detailVC.view.self, duration: 1.5, options: [.transitionCurlUp],completion: nil)
     }
 }

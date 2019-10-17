@@ -26,6 +26,8 @@ class DetailWeatherViewContrller:UIViewController {
     
     lazy  var locationLabel:UILabel = {
         let location = UILabel(center: .center, color: .black)
+        location.font = location.font.withSize(16)
+               location.font = UIFont.boldSystemFont(ofSize: 16)
         return location
     }()
     lazy  var cityImage:UIImageView = {
@@ -109,7 +111,7 @@ class DetailWeatherViewContrller:UIViewController {
  
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        view.backgroundColor = .lightGray
+        view.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
         addSubViews()
         setUpLocationLabelConstraints()
         setUpImageViewConstraints()
@@ -181,7 +183,7 @@ class DetailWeatherViewContrller:UIViewController {
         
         stackViewDetails.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: 10).isActive = true
         stackViewDetails.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
-        stackViewDetails.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        stackViewDetails.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant:  -600).isActive = true
         
         stackViewDetails.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }

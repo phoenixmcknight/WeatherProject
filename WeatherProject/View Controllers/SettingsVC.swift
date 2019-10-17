@@ -21,7 +21,8 @@ class SettingsVC:UIViewController {
         label.textAlignment = .center
         label.textColor = .black
         label.text = "Settings Menu"
-        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        label.font = label.font.withSize(20)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
     var tempSegmentedController:UISegmentedControl = {
