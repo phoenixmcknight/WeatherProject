@@ -106,7 +106,7 @@ class InitialWeatherViewController:UIViewController {
         
     }()
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         checkUserDefaults()
         settingsPersistenceHelper()
         weatherCollectionView.reloadData()
@@ -133,7 +133,7 @@ class InitialWeatherViewController:UIViewController {
         
     }
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+        super.viewDidAppear(animated)
         
             self.animationAfterViewLoads()
             self.placeHolderAnimation()
