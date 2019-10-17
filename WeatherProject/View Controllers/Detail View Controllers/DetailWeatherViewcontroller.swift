@@ -123,12 +123,9 @@ class DetailWeatherViewContrller:UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         placeHolderAnimation()
-        
+     
     }
-    override func viewWillDisappear(_ animated: Bool) {
-           super.viewWillDisappear(true)
-           animate()
-       }
+   
     
     //MARK: Functions
  private func addSubViews() {
@@ -180,12 +177,25 @@ class DetailWeatherViewContrller:UIViewController {
     
  private   func setUpStackViewDetails() {
         stackViewDetails.translatesAutoresizingMaskIntoConstraints = false
-        
+            stackViewDetails.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+    
         stackViewDetails.topAnchor.constraint(equalTo: summaryLabel.bottomAnchor, constant: 10).isActive = true
         stackViewDetails.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
-        stackViewDetails.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant:  -600).isActive = true
+      var leadingAnchor =   stackViewDetails.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant:  -600)
+    leadingAnchor.isActive = true
+    
+    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+              leadingAnchor.isActive = false
+        UIView.animate(withDuration: 3, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.5, options: .curveEaseIn,animations: {
+                  
+                self.view.layoutIfNeeded()
+                leadingAnchor = self.stackViewDetails.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor)
+                leadingAnchor.isActive = true
+                  self.stackViewDetails.alpha = 1.0
         
-        stackViewDetails.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+
+              }, completion: nil)
+    }
     }
     
 //MARK: Functions - Change Outlets
@@ -271,12 +281,11 @@ class DetailWeatherViewContrller:UIViewController {
         }
     }
 //MARK: Functions - Animations
- private   func animate() {
-        UIView.transition(from: DetailWeatherViewContrller().view, to: InitialWeatherViewController().view, duration: 1.5, options: [.transitionCurlDown], completion: nil)
-    }
+ 
     private  func placeHolderAnimation() {
 
         UIView.transition(with: self.placeHolderImage, duration: 2.5, options: [.transitionCrossDissolve], animations: {
+            
             self.placeHolderImage.image = UIImage(named: "clear")
        }, completion: nil)
                   
