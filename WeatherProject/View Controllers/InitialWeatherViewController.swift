@@ -263,13 +263,16 @@ class InitialWeatherViewController:UIViewController {
         }
     }
  private   func settingsPersistenceHelper() {
-        if let savedSettings = try? SettingsPersistenceHelper.shared.getSettings() {
-            settings = savedSettings
-        } else {
-            let defaultSettings = Settings(windSpeed: true, temperature: true, precipitation: true)
-            settings = defaultSettings
-        }
-    }
+ 
+         let defaultSettings = Settings(windSpeed: true, temperature: true, precipitation: true)
+         settings = defaultSettings
+ if let savedSettings = try? SettingsPersistenceHelper.shared.getSettings() {
+     if savedSettings.count > 0 {
+     
+     settings = savedSettings[0]
+     }
+ }
+ }
     
     private func loadData() {
         WeatherApiClient.shared.getWeather(latLong:textString) {

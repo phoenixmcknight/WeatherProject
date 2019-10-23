@@ -16,8 +16,8 @@ struct SettingsPersistenceHelper {
    }
     
     
-    func getSettings() throws -> Settings? {
-        return try persistenceHelper.getObjects()[0]
+    func getSettings() throws -> [Settings]? {
+        return try persistenceHelper.getObjects()
     }
 
    

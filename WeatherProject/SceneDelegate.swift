@@ -25,6 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
               
         initialWeatherListVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
                favoritesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
+        
                
                let navController1 = UINavigationController(rootViewController: initialWeatherListVC
         )
